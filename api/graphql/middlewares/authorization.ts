@@ -6,7 +6,7 @@ import dotenv = require('dotenv');
 dotenv.config();
 const secret: any = process.env.SECRET;
 
-export const Authorization = async (resolve, parent, args, ctx, info) => {
+export const Authorization = async (resolve: any, parent: any, args: any, ctx: any, info: any) => {
   let token = ctx.request.get('Authorization').split(' ')[1];
   await jwt.verify(token, secret, async (err: any, decodedToken: any) => {
     if (err || !decodedToken) {

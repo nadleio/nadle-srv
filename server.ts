@@ -1,26 +1,22 @@
-
-import express = require('express');
+import express from 'express';
 import dotenv = require('dotenv');
 import bodyParser = require("body-parser");
 import { default as typeDefs } from './api/graphql/typeDefs'
 import { resolvers, permissions } from './api/graphql/resolvers'
-import { GraphQLServer } from 'graphql-yoga'
-
-console.log(permissions)
+import { GraphQLServer, Options } from 'graphql-yoga'
 
 dotenv.config();
+const portGraphql: string = process.env.GRAPHQL_PORT || '4000';
+const portApi: string = process.env.PORT || '3000';
 
 const app: express.Application = express();
 const graphql: GraphQLServer = new GraphQLServer({
   typeDefs,
-  resolvers,
-  port: portGraphql,
+  resolvers: (resolvers as any),
   context: req => ({ ...req }),
   middlewares: [permissions]
 })
 
-const portApi: string = process.env.PORT || '3000';
-const portGraphql: string = process.env.GRAPHQL_PORT || '4000';
 
 const usersRouter = require('./api/routers/users')
 

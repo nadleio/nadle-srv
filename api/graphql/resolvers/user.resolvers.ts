@@ -2,9 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { prisma } = require('../../../generated/prisma-client');
 
-const secret: string = process.env.SECRET;
+const secret = process.env.SECRET;
 
-const login = async (email: string, password: string) => {
+async function login(email, password) {
   const user = await prisma.user({ email: email })
   const isMatch = await bcrypt.compare(password, user.password)
   if (isMatch) {
@@ -18,14 +18,15 @@ const login = async (email: string, password: string) => {
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email
-    }};
+      }
+    };
   }
   return {};
 }
 
-export default {
+module.exports = {
   Query: {
-    show: (_, {user}) => {
+    show: (_, { user }) => {
       return {
         id: user.id,
         first_name: user.first_name,
@@ -36,12 +37,12 @@ export default {
   },
 
   Mutation: {
-    login: async (_, {email, password}) => {
+    login: async (_, { email, password }) => {
       return await login(email, password)
     },
-    signup: async (_, {email, password, first_name, last_name}) => {
+    signup: async (_, { email, password, first_name, last_name }) => {
       const hashedPassword = await bcrypt.hash(password, 10)
-      const newUser = await prisma.createUser({
+      await prisma.createUser({
         first_name: first_name,
         last_name: last_name,
         email: email,
