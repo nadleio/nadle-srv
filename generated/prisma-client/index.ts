@@ -500,6 +500,7 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `http://prisma:4466`
+  endpoint: `http://prisma:4466`,
+  secret: '6d9a672e-6a6c-45a7-b9af-ad503183d660'
 });
 export const prisma = new Prisma();
