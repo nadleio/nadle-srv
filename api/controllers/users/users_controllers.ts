@@ -1,10 +1,12 @@
+export { };
+
 const { prisma } = require('../../../generated/prisma-client')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
 const secret: any = process.env.SECRET;
 
-exports.create = async function (req, res) {
+exports.create = async function (req: any, res: any) {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const newUser = await prisma.createUser({
@@ -20,7 +22,7 @@ exports.create = async function (req, res) {
   }
 }
 
-exports.signin = async function (req, res) {
+exports.signin = async function (req: any, res: any) {
   try {
     const user = await prisma.user({ email: req.body.email })
     bcrypt.compare(req.body.password, user.password, (_err: Object, isMatch: boolean) => {
@@ -40,7 +42,7 @@ exports.signin = async function (req, res) {
   }
 }
 
-exports.show = async function (req, res) {
+exports.show = async function (req: any, res: any) {
   try {
     res.status(200).send(req.user);
   } catch (e) {

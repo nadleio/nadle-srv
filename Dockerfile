@@ -1,0 +1,11 @@
+FROM node:10.14.1
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN yarn install
+RUN npm install -g typescript
+RUN npm install -g prisma
+COPY . .
+EXPOSE 3000
+EXPOSE 4000
+RUN tsc
+CMD prisma deploy; node server.js;

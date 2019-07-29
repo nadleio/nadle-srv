@@ -7,9 +7,14 @@
   "author": "Hector A. Acosta",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.0",
     "@types/jsonwebtoken": "^8.3.2",
+    "@types/ws": "^6.0.1",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "cookies": "^0.7.3",
     "dotenv": "^8.0.0",
@@ -24,11 +29,12 @@
     "prisma-client-lib": "^1.30.5",
     "request-cookies": "^1.1.0",
     "ts-node-dev": "^1.0.0-pre.40",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "ws": "^7.1.1"
   },
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
-    "prod": "tsc && node ./server.ts"
+    "prod": "tsc && node ./server.js"
   }
 }
