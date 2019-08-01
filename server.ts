@@ -27,3 +27,5 @@ app.use('/users', usersRouter);
 
 app.listen(portApi, () => console.log(`Api listening ⚡ on port: ${portApi}`));
 graphql.start(() => console.log(`Graphql listening ⚡ on port: ${portGraphql}`));
+
+export default app;
