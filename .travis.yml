@@ -24,4 +24,4 @@ deploy:
   provider: script
   script: ./.travis/deploy.sh
   on:
-    branch: Travis
+    branch: staging
