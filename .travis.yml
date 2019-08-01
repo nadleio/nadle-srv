@@ -10,15 +10,15 @@ addons:
 services:
   - docker
 
+before_install:
+  - ./.travis/docker.sh
+  - ./.travis/kubernetes.sh
+
 install:
-  - mkdir ${HOME}/.kube
-  - doctl kubernetes cluster kubeconfig save $CLUSTER_NAME
-  - mv /home/travis/snap/doctl/64/.kube/config ${HOME}/.kube/config
-  - ls -lha /home/travis/snap/
-  - ls -lha ${HOME}/.kube/
-  - cat ${HOME}/.kube/config
-  - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  - docker-compose up -d
+  - docker-compose up -d postgres prisma
+
+script:
+  - yarn run test
 
 deploy:
   provider: script

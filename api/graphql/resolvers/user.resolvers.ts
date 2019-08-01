@@ -26,7 +26,7 @@ async function login(email, password) {
 
 module.exports = {
   Query: {
-    show: (_, { user }) => {
+    current_user: (_, { user }) => {
       return {
         id: user.id,
         first_name: user.first_name,
