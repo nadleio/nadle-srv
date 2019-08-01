@@ -10,6 +10,6 @@ export const resolvers = fileLoader(path.join(__dirname, './**/*.resolvers.*'))
 
 export const permissions = {
   Query: {
-    show: Authorization
+    current_user: Authorization
   }
 }

@@ -1,5 +1,5 @@
 type Query {
-  show: User!
+  current_user: User!
 }
 
 type User {

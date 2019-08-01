@@ -8,4 +8,4 @@ COPY . .
 EXPOSE 3000
 EXPOSE 4000
 RUN tsc
-CMD prisma deploy; node server.js;
+CMD ./bin/run.sh

@@ -1,4 +1,4 @@
-# install.sh
+# deploy.sh
 #!/bin/sh
 
 HEX="$(openssl rand -hex 3)"
