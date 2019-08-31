@@ -2,15 +2,15 @@ import express = require('express');
 import Authorization from '../helpers/authorization';
 const router = express.Router();
 
-const users_controller = require('../controllers/users/users_controllers');
+const usersController = require('../controllers/users/usersControllers');
 
-router.post('/signup', users_controller.create);
-router.post('/signin', users_controller.signin)
+router.post('/signup', usersController.create);
+router.post('/signin', usersController.signin)
 
 //Authentication check
 router.use(Authorization);
 
-router.get('/', users_controller.show);
+router.get('/', usersController.show);
 
 
 module.exports = router;

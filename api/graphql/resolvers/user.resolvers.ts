@@ -16,8 +16,8 @@ async function login(email, password) {
       token: token,
       user: {
         id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email
       }
     };
@@ -30,7 +30,7 @@ async function sendVerification(user) {
   const now = new Date();
   const oneDayForward = now.getDay() + 1;
   const token = await jwt.sign({ userId: user.id, validUntil: oneDayForward }, secret);
-  await prisma.updateUser({ data: { activation_token: token, activation_sent_at: now }, where: { id: user.id } })
+  await prisma.updateUser({ data: { activationToken: token, activationSentAt: now }, where: { id: user.id } })
 
   sgMail.setApiKey(sendgridToken);
   const msg = {
@@ -39,8 +39,8 @@ async function sendVerification(user) {
     templateId: 'd-cb170038c779464b9c1c21e7297280fe',
     dynamic_template_data: {
       token: token,
-      first_name: user.first_name,
-      last_name: user.last_name
+      first_name: user.firstName,
+      last_name: user.lastName
     },
   };
   sgMail.send(msg);
@@ -48,11 +48,11 @@ async function sendVerification(user) {
 
 module.exports = {
   Query: {
-    current_user: (_, { user }) => {
+    currentUser: (_, { user }) => {
       return {
         id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
       }
     }
@@ -62,11 +62,11 @@ module.exports = {
     login: async (_, { email, password }) => {
       return await login(email, password)
     },
-    signup: async (_, { email, password, first_name, last_name }) => {
+    signup: async (_, { email, password, firstName, lastName }) => {
       const hashedPassword = await bcrypt.hash(password, 10)
       const user = await prisma.createUser({
-        first_name: first_name,
-        last_name: last_name,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         password: hashedPassword
       })
@@ -78,7 +78,7 @@ module.exports = {
         if (err || !decodedToken) {
           return { message: "User not verified", success: false }
         }
-        await prisma.updateUser({ data: { activated_at: new Date() }, where: { id: decodedToken.userId } })
+        await prisma.updateUser({ data: { activatedAt: new Date() }, where: { id: decodedToken.userId } })
         return { message: "User verified", success: true }
       })
     }

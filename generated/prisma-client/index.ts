@@ -104,18 +104,18 @@ export interface ClientConstructor<T> {
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "first_name_ASC"
-  | "first_name_DESC"
-  | "last_name_ASC"
-  | "last_name_DESC"
+  | "firstName_ASC"
+  | "firstName_DESC"
+  | "lastName_ASC"
+  | "lastName_DESC"
   | "email_ASC"
   | "email_DESC"
-  | "activated_at_ASC"
-  | "activated_at_DESC"
-  | "activation_token_ASC"
-  | "activation_token_DESC"
-  | "activation_sent_at_ASC"
-  | "activation_sent_at_DESC"
+  | "activatedAt_ASC"
+  | "activatedAt_DESC"
+  | "activationToken_ASC"
+  | "activationToken_DESC"
+  | "activationSentAt_ASC"
+  | "activationSentAt_DESC"
   | "password_ASC"
   | "password_DESC"
   | "createdAt_ASC"
@@ -127,22 +127,22 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  first_name: String;
-  last_name: String;
+  firstName: String;
+  lastName: String;
   email: String;
-  activated_at?: Maybe<DateTimeInput>;
-  activation_token?: Maybe<String>;
-  activation_sent_at?: Maybe<DateTimeInput>;
+  activatedAt?: Maybe<DateTimeInput>;
+  activationToken?: Maybe<String>;
+  activationSentAt?: Maybe<DateTimeInput>;
   password: String;
 }
 
 export interface UserUpdateInput {
-  first_name?: Maybe<String>;
-  last_name?: Maybe<String>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
   email?: Maybe<String>;
-  activated_at?: Maybe<DateTimeInput>;
-  activation_token?: Maybe<String>;
-  activation_sent_at?: Maybe<DateTimeInput>;
+  activatedAt?: Maybe<DateTimeInput>;
+  activationToken?: Maybe<String>;
+  activationSentAt?: Maybe<DateTimeInput>;
   password?: Maybe<String>;
 }
 
@@ -161,34 +161,34 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  first_name?: Maybe<String>;
-  first_name_not?: Maybe<String>;
-  first_name_in?: Maybe<String[] | String>;
-  first_name_not_in?: Maybe<String[] | String>;
-  first_name_lt?: Maybe<String>;
-  first_name_lte?: Maybe<String>;
-  first_name_gt?: Maybe<String>;
-  first_name_gte?: Maybe<String>;
-  first_name_contains?: Maybe<String>;
-  first_name_not_contains?: Maybe<String>;
-  first_name_starts_with?: Maybe<String>;
-  first_name_not_starts_with?: Maybe<String>;
-  first_name_ends_with?: Maybe<String>;
-  first_name_not_ends_with?: Maybe<String>;
-  last_name?: Maybe<String>;
-  last_name_not?: Maybe<String>;
-  last_name_in?: Maybe<String[] | String>;
-  last_name_not_in?: Maybe<String[] | String>;
-  last_name_lt?: Maybe<String>;
-  last_name_lte?: Maybe<String>;
-  last_name_gt?: Maybe<String>;
-  last_name_gte?: Maybe<String>;
-  last_name_contains?: Maybe<String>;
-  last_name_not_contains?: Maybe<String>;
-  last_name_starts_with?: Maybe<String>;
-  last_name_not_starts_with?: Maybe<String>;
-  last_name_ends_with?: Maybe<String>;
-  last_name_not_ends_with?: Maybe<String>;
+  firstName?: Maybe<String>;
+  firstName_not?: Maybe<String>;
+  firstName_in?: Maybe<String[] | String>;
+  firstName_not_in?: Maybe<String[] | String>;
+  firstName_lt?: Maybe<String>;
+  firstName_lte?: Maybe<String>;
+  firstName_gt?: Maybe<String>;
+  firstName_gte?: Maybe<String>;
+  firstName_contains?: Maybe<String>;
+  firstName_not_contains?: Maybe<String>;
+  firstName_starts_with?: Maybe<String>;
+  firstName_not_starts_with?: Maybe<String>;
+  firstName_ends_with?: Maybe<String>;
+  firstName_not_ends_with?: Maybe<String>;
+  lastName?: Maybe<String>;
+  lastName_not?: Maybe<String>;
+  lastName_in?: Maybe<String[] | String>;
+  lastName_not_in?: Maybe<String[] | String>;
+  lastName_lt?: Maybe<String>;
+  lastName_lte?: Maybe<String>;
+  lastName_gt?: Maybe<String>;
+  lastName_gte?: Maybe<String>;
+  lastName_contains?: Maybe<String>;
+  lastName_not_contains?: Maybe<String>;
+  lastName_starts_with?: Maybe<String>;
+  lastName_not_starts_with?: Maybe<String>;
+  lastName_ends_with?: Maybe<String>;
+  lastName_not_ends_with?: Maybe<String>;
   email?: Maybe<String>;
   email_not?: Maybe<String>;
   email_in?: Maybe<String[] | String>;
@@ -203,36 +203,36 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
-  activated_at?: Maybe<DateTimeInput>;
-  activated_at_not?: Maybe<DateTimeInput>;
-  activated_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  activated_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  activated_at_lt?: Maybe<DateTimeInput>;
-  activated_at_lte?: Maybe<DateTimeInput>;
-  activated_at_gt?: Maybe<DateTimeInput>;
-  activated_at_gte?: Maybe<DateTimeInput>;
-  activation_token?: Maybe<String>;
-  activation_token_not?: Maybe<String>;
-  activation_token_in?: Maybe<String[] | String>;
-  activation_token_not_in?: Maybe<String[] | String>;
-  activation_token_lt?: Maybe<String>;
-  activation_token_lte?: Maybe<String>;
-  activation_token_gt?: Maybe<String>;
-  activation_token_gte?: Maybe<String>;
-  activation_token_contains?: Maybe<String>;
-  activation_token_not_contains?: Maybe<String>;
-  activation_token_starts_with?: Maybe<String>;
-  activation_token_not_starts_with?: Maybe<String>;
-  activation_token_ends_with?: Maybe<String>;
-  activation_token_not_ends_with?: Maybe<String>;
-  activation_sent_at?: Maybe<DateTimeInput>;
-  activation_sent_at_not?: Maybe<DateTimeInput>;
-  activation_sent_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  activation_sent_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  activation_sent_at_lt?: Maybe<DateTimeInput>;
-  activation_sent_at_lte?: Maybe<DateTimeInput>;
-  activation_sent_at_gt?: Maybe<DateTimeInput>;
-  activation_sent_at_gte?: Maybe<DateTimeInput>;
+  activatedAt?: Maybe<DateTimeInput>;
+  activatedAt_not?: Maybe<DateTimeInput>;
+  activatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  activatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  activatedAt_lt?: Maybe<DateTimeInput>;
+  activatedAt_lte?: Maybe<DateTimeInput>;
+  activatedAt_gt?: Maybe<DateTimeInput>;
+  activatedAt_gte?: Maybe<DateTimeInput>;
+  activationToken?: Maybe<String>;
+  activationToken_not?: Maybe<String>;
+  activationToken_in?: Maybe<String[] | String>;
+  activationToken_not_in?: Maybe<String[] | String>;
+  activationToken_lt?: Maybe<String>;
+  activationToken_lte?: Maybe<String>;
+  activationToken_gt?: Maybe<String>;
+  activationToken_gte?: Maybe<String>;
+  activationToken_contains?: Maybe<String>;
+  activationToken_not_contains?: Maybe<String>;
+  activationToken_starts_with?: Maybe<String>;
+  activationToken_not_starts_with?: Maybe<String>;
+  activationToken_ends_with?: Maybe<String>;
+  activationToken_not_ends_with?: Maybe<String>;
+  activationSentAt?: Maybe<DateTimeInput>;
+  activationSentAt_not?: Maybe<DateTimeInput>;
+  activationSentAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  activationSentAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  activationSentAt_lt?: Maybe<DateTimeInput>;
+  activationSentAt_lte?: Maybe<DateTimeInput>;
+  activationSentAt_gt?: Maybe<DateTimeInput>;
+  activationSentAt_gte?: Maybe<DateTimeInput>;
   password?: Maybe<String>;
   password_not?: Maybe<String>;
   password_in?: Maybe<String[] | String>;
@@ -269,12 +269,12 @@ export interface UserWhereInput {
 }
 
 export interface UserUpdateManyMutationInput {
-  first_name?: Maybe<String>;
-  last_name?: Maybe<String>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
   email?: Maybe<String>;
-  activated_at?: Maybe<DateTimeInput>;
-  activation_token?: Maybe<String>;
-  activation_sent_at?: Maybe<DateTimeInput>;
+  activatedAt?: Maybe<DateTimeInput>;
+  activationToken?: Maybe<String>;
+  activationSentAt?: Maybe<DateTimeInput>;
   password?: Maybe<String>;
 }
 
@@ -292,7 +292,7 @@ export interface UserSubscriptionWhereInput {
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
-  activation_token?: Maybe<String>;
+  activationToken?: Maybe<String>;
 }>;
 
 export interface NodeNode {
@@ -334,12 +334,12 @@ export interface BatchPayloadSubscription
 
 export interface User {
   id: ID_Output;
-  first_name: String;
-  last_name: String;
+  firstName: String;
+  lastName: String;
   email: String;
-  activated_at?: DateTimeOutput;
-  activation_token?: String;
-  activation_sent_at?: DateTimeOutput;
+  activatedAt?: DateTimeOutput;
+  activationToken?: String;
+  activationSentAt?: DateTimeOutput;
   password: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -347,12 +347,12 @@ export interface User {
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
-  first_name: () => Promise<String>;
-  last_name: () => Promise<String>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
   email: () => Promise<String>;
-  activated_at: () => Promise<DateTimeOutput>;
-  activation_token: () => Promise<String>;
-  activation_sent_at: () => Promise<DateTimeOutput>;
+  activatedAt: () => Promise<DateTimeOutput>;
+  activationToken: () => Promise<String>;
+  activationSentAt: () => Promise<DateTimeOutput>;
   password: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -362,12 +362,12 @@ export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  first_name: () => Promise<AsyncIterator<String>>;
-  last_name: () => Promise<AsyncIterator<String>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  activated_at: () => Promise<AsyncIterator<DateTimeOutput>>;
-  activation_token: () => Promise<AsyncIterator<String>>;
-  activation_sent_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  activatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  activationToken: () => Promise<AsyncIterator<String>>;
+  activationSentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   password: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -377,12 +377,12 @@ export interface UserNullablePromise
   extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  first_name: () => Promise<String>;
-  last_name: () => Promise<String>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
   email: () => Promise<String>;
-  activated_at: () => Promise<DateTimeOutput>;
-  activation_token: () => Promise<String>;
-  activation_sent_at: () => Promise<DateTimeOutput>;
+  activatedAt: () => Promise<DateTimeOutput>;
+  activationToken: () => Promise<String>;
+  activationSentAt: () => Promise<DateTimeOutput>;
   password: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -475,12 +475,12 @@ export interface AggregateUserSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
-  first_name: String;
-  last_name: String;
+  firstName: String;
+  lastName: String;
   email: String;
-  activated_at?: DateTimeOutput;
-  activation_token?: String;
-  activation_sent_at?: DateTimeOutput;
+  activatedAt?: DateTimeOutput;
+  activationToken?: String;
+  activationSentAt?: DateTimeOutput;
   password: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -490,12 +490,12 @@ export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  first_name: () => Promise<String>;
-  last_name: () => Promise<String>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
   email: () => Promise<String>;
-  activated_at: () => Promise<DateTimeOutput>;
-  activation_token: () => Promise<String>;
-  activation_sent_at: () => Promise<DateTimeOutput>;
+  activatedAt: () => Promise<DateTimeOutput>;
+  activationToken: () => Promise<String>;
+  activationSentAt: () => Promise<DateTimeOutput>;
   password: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -505,12 +505,12 @@ export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  first_name: () => Promise<AsyncIterator<String>>;
-  last_name: () => Promise<AsyncIterator<String>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  activated_at: () => Promise<AsyncIterator<DateTimeOutput>>;
-  activation_token: () => Promise<AsyncIterator<String>>;
-  activation_sent_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  activatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  activationToken: () => Promise<AsyncIterator<String>>;
+  activationSentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   password: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

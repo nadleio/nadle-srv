@@ -1,18 +1,18 @@
 type Query {
-  current_user: User!
+  currentUser: User!
 }
 
 type User {
     id: ID!
-    first_name: String!
-    last_name: String!
+    firstName: String!
+    lastName: String!
     email: String!
 }
 
 type Mutation {
   signup(
-    first_name: String!,
-    last_name: String!,
+    firstName: String!,
+    lastName: String!,
     email: String!,
     password: String!
   ): TransactionStatus
