@@ -56,6 +56,9 @@ type User {
   first_name: String!
   last_name: String!
   email: String!
+  activated_at: DateTime
+  activation_token: String
+  activation_sent_at: DateTime
   password: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -72,6 +75,9 @@ input UserCreateInput {
   first_name: String!
   last_name: String!
   email: String!
+  activated_at: DateTime
+  activation_token: String
+  activation_sent_at: DateTime
   password: String!
 }
 
@@ -89,6 +95,12 @@ enum UserOrderByInput {
   last_name_DESC
   email_ASC
   email_DESC
+  activated_at_ASC
+  activated_at_DESC
+  activation_token_ASC
+  activation_token_DESC
+  activation_sent_at_ASC
+  activation_sent_at_DESC
   password_ASC
   password_DESC
   createdAt_ASC
@@ -102,6 +114,9 @@ type UserPreviousValues {
   first_name: String!
   last_name: String!
   email: String!
+  activated_at: DateTime
+  activation_token: String
+  activation_sent_at: DateTime
   password: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -129,6 +144,9 @@ input UserUpdateInput {
   first_name: String
   last_name: String
   email: String
+  activated_at: DateTime
+  activation_token: String
+  activation_sent_at: DateTime
   password: String
 }
 
@@ -136,6 +154,9 @@ input UserUpdateManyMutationInput {
   first_name: String
   last_name: String
   email: String
+  activated_at: DateTime
+  activation_token: String
+  activation_sent_at: DateTime
   password: String
 }
 
@@ -196,6 +217,36 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  activated_at: DateTime
+  activated_at_not: DateTime
+  activated_at_in: [DateTime!]
+  activated_at_not_in: [DateTime!]
+  activated_at_lt: DateTime
+  activated_at_lte: DateTime
+  activated_at_gt: DateTime
+  activated_at_gte: DateTime
+  activation_token: String
+  activation_token_not: String
+  activation_token_in: [String!]
+  activation_token_not_in: [String!]
+  activation_token_lt: String
+  activation_token_lte: String
+  activation_token_gt: String
+  activation_token_gte: String
+  activation_token_contains: String
+  activation_token_not_contains: String
+  activation_token_starts_with: String
+  activation_token_not_starts_with: String
+  activation_token_ends_with: String
+  activation_token_not_ends_with: String
+  activation_sent_at: DateTime
+  activation_sent_at_not: DateTime
+  activation_sent_at_in: [DateTime!]
+  activation_sent_at_not_in: [DateTime!]
+  activation_sent_at_lt: DateTime
+  activation_sent_at_lte: DateTime
+  activation_sent_at_gt: DateTime
+  activation_sent_at_gte: DateTime
   password: String
   password_not: String
   password_in: [String!]
@@ -234,5 +285,6 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  activation_token: String
 }
 `

@@ -3,6 +3,9 @@ type User {
   first_name: String!
   last_name: String!
   email: String! @unique @required
+  activated_at: DateTime
+  activation_token: String @unique
+  activation_sent_at: DateTime
   password: String! @required
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
