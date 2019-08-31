@@ -6,6 +6,8 @@ type User {
   activatedAt: DateTime
   activationToken: String @unique
   activationSentAt: DateTime
+  resetPasswordToken: String @unique
+  resetPasswordSentAt: DateTime
   password: String! @required
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

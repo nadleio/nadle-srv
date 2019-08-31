@@ -11,5 +11,8 @@ export const resolvers = fileLoader(path.join(__dirname, './**/*.resolvers.*'))
 export const permissions = {
   Query: {
     currentUser: Authorization
+  },
+  Mutation: {
+    changePasswordAuth: Authorization
   }
 }

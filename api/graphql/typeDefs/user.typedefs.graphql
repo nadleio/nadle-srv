@@ -18,6 +18,9 @@ type Mutation {
   ): TransactionStatus
   login(email: String!, password: String!): AuthPayload
   verify(token: String!): TransactionStatus
+  forgotPassword(email: String!): TransactionStatus
+  changePassword(token: String!, newPassword: String!): TransactionStatus
+  changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatus
 }
 
 type TransactionStatus {

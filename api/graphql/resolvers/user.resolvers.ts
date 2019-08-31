@@ -46,6 +46,27 @@ async function sendVerification(user) {
   sgMail.send(msg);
 }
 
+async function SendPasswordChange(user) {
+  const sgMail = require('@sendgrid/mail');
+  const now = new Date();
+  const thirtyMinutesForward = now.getMinutes() + 20;
+  const token = await jwt.sign({ userId: user.id, validUntil: thirtyMinutesForward }, secret);
+  await prisma.updateUser({ data: { resetPasswordToken: token, resetPasswordSentAt: now }, where: { id: user.id } })
+
+  sgMail.setApiKey(sendgridToken);
+  const msg = {
+    to: user.email,
+    from: 'support@nadle.io',
+    templateId: 'd-13beb537ddbe411993d903e6bab88b46',
+    dynamic_template_data: {
+      token: token,
+      first_name: user.firstName,
+      last_name: user.lastName
+    },
+  };
+  sgMail.send(msg);
+}
+
 module.exports = {
   Query: {
     currentUser: (_, { user }) => {
@@ -78,9 +99,46 @@ module.exports = {
         if (err || !decodedToken) {
           return { message: "User not verified", success: false }
         }
+        const now = new Date();
+        if (decodedToken.validUntil > now) {
+          return { message: "Token expired", success: false }
+        }
         await prisma.updateUser({ data: { activatedAt: new Date() }, where: { id: decodedToken.userId } })
         return { message: "User verified", success: true }
       })
+    },
+    forgotPassword: async (_, { email }) => {
+      const user = await prisma.user({ email: email })
+      if (user !== null) {
+        SendPasswordChange(user)
+        return { message: "User password change request sent", success: true }
+      } else {
+        return { message: "User password change request not sent", success: false }
+      }
+    },
+    changePassword: async (_, { token, newPassword }) => {
+      return await jwt.verify(token, secret, async (err, decodedToken) => {
+        if (err || !decodedToken) {
+          return { message: "Token not valid", success: false }
+        }
+        const now = new Date();
+        if (decodedToken.validUntil > now) {
+          return { message: "Token expired", success: false }
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        await prisma.updateUser({ data: { password: hashedPassword }, where: { id: decodedToken.userId } })
+        return { message: "Password changed", success: true }
+      })
+    },
+    changePasswordAuth: async (_, { user, oldPassword, newPassword }) => {
+      const isMatch = await bcrypt.compare(oldPassword, user.password)
+      if (isMatch) {
+        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        await prisma.updateUser({ data: { password: hashedPassword }, where: { id: user.id } })
+        return { message: "Password changed", success: true }
+      } else {
+        return { message: "Password not changed", success: false }
+      }
     }
   }
 }
