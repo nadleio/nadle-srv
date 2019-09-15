@@ -1,4 +1,4 @@
-endpoint: http://prisma:4466
+endpoint: https://murmuring-gorge-14459.herokuapp.com/srv-staging-nadle/dev
 datamodel: datamodel.graphql
 
 generate:
