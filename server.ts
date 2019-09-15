@@ -20,7 +20,6 @@ const options = {
   playground: '/playground',
 }
 
-// app.listen(portApi, () => console.log(`Api listening ⚡ on port: ${portApi}`));
 graphql.start(options, () => console.log(`Graphql listening ⚡ on port: ${portGraphql}`));
 
 export default app;
