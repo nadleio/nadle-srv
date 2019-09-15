@@ -1,5 +1,5 @@
 # run.sh
 #!/bin/sh
 
-prisma deploy;
+prisma deploy --force;
 node server.js;
