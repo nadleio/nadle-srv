@@ -20,6 +20,8 @@ install:
   - docker-compose up -d postgres prisma
   - npm install -g typescript
   - npm install -g prisma
+  - mv ./.travis/prisma.yml prisma.yml
+  - prisma generate
   - prisma deploy
   - yarn install
 

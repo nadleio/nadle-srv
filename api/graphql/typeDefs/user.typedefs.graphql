@@ -1,22 +1,31 @@
 type Query {
-  current_user: User!
+  currentUser: User!
 }
 
 type User {
     id: ID!
-    first_name: String!
-    last_name: String!
+    firstName: String!
+    lastName: String!
     email: String!
 }
 
 type Mutation {
   signup(
-    first_name: String!,
-    last_name: String!,
+    firstName: String!,
+    lastName: String!,
     email: String!,
     password: String!
-  ): AuthPayload
+  ): TransactionStatus
   login(email: String!, password: String!): AuthPayload
+  verify(token: String!): TransactionStatus
+  forgotPassword(email: String!): TransactionStatus
+  changePassword(token: String!, newPassword: String!): TransactionStatus
+  changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatus
+}
+
+type TransactionStatus {
+  message: String!
+  success: Boolean!
 }
 
 type AuthPayload {

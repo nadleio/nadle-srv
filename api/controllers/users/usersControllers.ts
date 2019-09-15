@@ -10,8 +10,8 @@ exports.create = async function (req: any, res: any) {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const newUser = await prisma.createUser({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword
     })

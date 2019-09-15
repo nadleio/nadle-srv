@@ -1,8 +1,13 @@
 type User {
   id: ID! @id
-  first_name: String!
-  last_name: String!
+  firstName: String!
+  lastName: String!
   email: String! @unique @required
+  activatedAt: DateTime
+  activationToken: String @unique
+  activationSentAt: DateTime
+  resetPasswordToken: String @unique
+  resetPasswordSentAt: DateTime
   password: String! @required
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
