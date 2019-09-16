@@ -22,4 +22,4 @@ const options = {
 
 graphql.start(options, () => console.log(`Graphql listening ⚡ on port: ${portGraphql}`));
 
-export default app;
+export default graphql;

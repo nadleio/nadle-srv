@@ -28,7 +28,7 @@ script:
   - yarn run test
 
 deploy:
-  provider: script
-  script: ./.travis/deploy.sh
-  on:
-    branch: staging
+  provider: heroku
+  api_key: a10fb628-22fd-4a15-85d6-986cb612d95d
+  app:
+    staging: nadle-srv-staging
