@@ -4,28 +4,38 @@ type Query {
 
 type User {
     id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     email: String!
+    buckets: [Bucket!]!
 }
 
 type Mutation {
   signup(
-    firstName: String!,
-    lastName: String!,
+    firstName: String,
+    lastName: String,
     email: String!,
     password: String!
-  ): TransactionStatus
+  ): TransactionStatusEvent
   login(email: String!, password: String!): AuthPayload
-  verify(token: String!): TransactionStatus
-  forgotPassword(email: String!): TransactionStatus
-  changePassword(token: String!, newPassword: String!): TransactionStatus
-  changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatus
+  verify(token: String!): TransactionStatusEvent
+  forgotPassword(email: String!): TransactionStatusEvent
+  changePassword(token: String!, newPassword: String!): TransactionStatusEvent
+  changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatusEvent
+  createBucket(parent: String, title: String!, description: String, privateBucket: Boolean): TransactionStatusBucket
 }
 
-type TransactionStatus {
+type TransactionStatusEvent implements TransactionStatus {
   message: String!
   success: Boolean!
+  errorCode: String
+}
+
+type TransactionStatusBucket implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: Bucket
 }
 
 type AuthPayload {

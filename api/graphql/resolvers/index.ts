@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fileLoader } from 'merge-graphql-schemas';
-const { GraphQLServer } = require('graphql-yoga');
 const { Authorization } = require('../middlewares/authorization');
+
 
 import dotenv = require('dotenv');
 dotenv.config();
@@ -13,6 +13,7 @@ export const permissions = {
     currentUser: Authorization
   },
   Mutation: {
-    changePasswordAuth: Authorization
+    changePasswordAuth: Authorization,
+    createBucket: Authorization
   }
 }
