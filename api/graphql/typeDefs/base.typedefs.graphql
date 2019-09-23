@@ -1,0 +1,5 @@
+interface TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+}
