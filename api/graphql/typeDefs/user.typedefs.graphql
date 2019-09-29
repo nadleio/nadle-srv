@@ -6,6 +6,7 @@ type User {
     id: ID!
     firstName: String
     lastName: String
+    username: String!
     email: String!
     buckets: [Bucket!]!
 }
@@ -15,9 +16,10 @@ type Mutation {
     firstName: String,
     lastName: String,
     email: String!,
+    username: String!,
     password: String!
   ): TransactionStatusEvent
-  login(email: String!, password: String!): AuthPayload
+  login(identifier: String!, password: String!): AuthPayload
   verify(token: String!): TransactionStatusEvent
   forgotPassword(email: String!): TransactionStatusEvent
   changePassword(token: String!, newPassword: String!): TransactionStatusEvent
