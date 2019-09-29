@@ -19,19 +19,28 @@ module.exports = {
   },
 
   Mutation: {
-    login: async (_, { email, password }) => {
-      return await login(email, password)
+    login: async (_, { identifier, password }) => {
+      return await login(identifier, password)
     },
-    signup: async (_, { email, password, firstName, lastName }) => {
-      const hashedPassword = await bcrypt.hash(password, 10)
-      const user = await prisma.createUser({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: hashedPassword
-      })
-      sendVerification(user)
-      return { message: "User created", success: true }
+    signup: async (_, { email, username, password, firstName, lastName }) => {
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const user = await prisma.createUser({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          username: username,
+          password: hashedPassword
+        })
+        sendVerification(user)
+        return { message: "User created", success: true }
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: "USER-0025"
+        }
+      }
     },
     verify: async (_, { token }) => {
       return await jwt.verify(token, secret, async (err, decodedToken) => {
@@ -115,10 +124,8 @@ module.exports = {
   }
 }
 
-
-
-async function login(email, password) {
-  const user = await prisma.user({ email: email })
+async function login(identifier, password) {
+  const user = await prisma.user({ email: identifier }) || await prisma.user({ username: identifier })
   const isMatch = await bcrypt.compare(password, user.password)
   if (isMatch) {
     const now = new Date();

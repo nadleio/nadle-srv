@@ -2,6 +2,7 @@ type User {
   id: ID! @id
   firstName: String
   lastName: String
+  username: String @unique
   email: String! @unique @required
   buckets: [Bucket!]!
   activatedAt: DateTime
