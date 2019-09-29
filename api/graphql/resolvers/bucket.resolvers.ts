@@ -11,9 +11,15 @@ module.exports = {
     childs(parent) {
       return prisma.buckets({ where: { parent: { id: parent.id } } })
     },
-    level(parent) {
-      const childsArray = parent.childs
-      return childsArray !== undefined ? childsArray.length : 0
+    async level(parent) {
+      let deepness = 0
+      const childsArray = await prisma.buckets({ where: { parent: { id: parent.id } } })
+      for (var i = 0; i < childsArray.length; i++) {
+        console.log(childsArray)
+        deepness = 1 + (await prisma.bucket({ id: childsArray[i].id })['level'] || 0)
+      }
+
+      return deepness
     }
   }
 }
