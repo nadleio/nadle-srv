@@ -38,10 +38,31 @@
     "typescript": "^3.5.3",
     "ws": "^7.1.1"
   },
+  "devDependencies": {
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.1",
+    "prettier": "^1.18.2",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0"
+  },
   "scripts": {
     "tsc": "tsc",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\"",
+    "lint": "tslint --project .",
     "test": "tsc && mocha tests/*.js --exit",
     "dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
     "prod": "tsc && node ./server.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint",
+      "npm run format",
+      "git add"
+    ]
   }
 }
