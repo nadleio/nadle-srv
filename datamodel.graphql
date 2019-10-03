@@ -1,9 +1,28 @@
 type User {
   id: ID! @id
-  first_name: String!
-  last_name: String!
+  firstName: String
+  lastName: String
+  username: String @unique
   email: String! @unique @required
+  buckets: [Bucket!]!
+  activatedAt: DateTime
+  activationToken: String @unique
+  activationSentAt: DateTime
+  resetPasswordToken: String @unique
+  resetPasswordSentAt: DateTime
   password: String! @required
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Bucket {
+  id: ID! @id
+  parent: Bucket @relation(name: "ChildBuckets")
+  title: String!
+  description: String
+  owner: User!
+  privateBucket: Boolean @default(value: false)
+  childs: [Bucket!]! @relation(name: "ChildBuckets")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

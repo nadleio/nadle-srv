@@ -1,3 +1,5 @@
 .env
+*.js
 yarn.lock
 node_modules
+generated

@@ -1,0 +1,15 @@
+type Bucket {
+  id: ID!
+  parent: Bucket
+  childs: [Bucket!]!
+  title: String!
+  description: String
+  owner: User!
+  privateBucket: Boolean
+  level: Int
+}
+
+type Query {
+  buckets(id: ID!): [Bucket]!
+  bucket(id: ID!): Bucket!
+}

@@ -7,10 +7,20 @@
   "author": "Hector A. Acosta",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "@sendgrid/mail": "^6.4.0",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.0",
     "@types/jsonwebtoken": "^8.3.2",
+    "@types/mocha": "^5.2.7",
+    "@types/ws": "^6.0.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cookies": "^0.7.3",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
@@ -19,16 +29,40 @@
     "js-beautify": "^1.10.1",
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.6.2-bdaf070.0",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
     "path": "^0.12.7",
     "prisma-client-lib": "^1.30.5",
     "request-cookies": "^1.1.0",
     "ts-node-dev": "^1.0.0-pre.40",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "ws": "^7.1.1"
+  },
+  "devDependencies": {
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.1",
+    "prettier": "^1.18.2",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0"
   },
   "scripts": {
     "tsc": "tsc",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\"",
+    "lint": "tslint --project .",
+    "test": "tsc && mocha tests/*.js --exit",
     "dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
-    "prod": "tsc && node ./server.ts"
+    "prod": "tsc && node ./server.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint",
+      "npm run format",
+      "git add"
+    ]
   }
 }

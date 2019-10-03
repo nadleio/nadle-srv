@@ -1,0 +1,34 @@
+language: node_js
+node_js:
+  - "10.14.1"
+dist: xenial
+
+addons:
+  snaps:
+    - doctl
+    - name: kubectl
+      confinement: classic
+
+services:
+  - docker
+
+before_install:
+  - ./.travis/docker.sh
+
+install:
+  - docker-compose up -d postgres prisma
+  - npm install -g typescript
+  - npm install -g prisma
+  - mv ./.travis/prisma.yml prisma.yml
+  - prisma generate
+  - prisma deploy
+  - yarn install
+
+script:
+  - yarn run test
+
+deploy:
+  provider: heroku
+  api_key: a10fb628-22fd-4a15-85d6-986cb612d95d
+  app:
+    staging: nadle-srv-staging
