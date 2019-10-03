@@ -22,12 +22,10 @@ module.exports = {
     login: async (_, { identifier, password }) => {
       return await login(identifier, password);
     },
-    signup: async (_, { email, username, password, firstName, lastName }) => {
+    signup: async (_, { email, username, password }) => {
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.createUser({
-          firstName: firstName,
-          lastName: lastName,
           email: email,
           username: username,
           password: hashedPassword
