@@ -1,34 +1,55 @@
-type Query {
-  currentUser: User!
-}
-
+# Models
 type User {
-    id: ID!
-    firstName: String
-    lastName: String
-    username: String!
-    email: String!
-    buckets: [Bucket!]!
+  id: ID!
+  firstName: String
+  lastName: String
+  username: String!
+  email: String!
+  buckets: [Bucket!]!
+  followers(limit: Int, offset: Int): Follows
+  following(limit: Int, offset: Int): Follows
 }
 
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type Follows {
+  count: Int
+  pages: Int
+  results: [User!]!
+}
+
+# Queries
+type Query {
+  currentUser: TransactionStatusUser!
+  getSelf: TransactionStatusUser!
+}
+
+# Mutations
 type Mutation {
   signup(
     email: String!,
     username: String!,
     password: String!
   ): TransactionStatusEvent
-  login(identifier: String!, password: String!): AuthPayload
+  login(identifier: String!, password: String!): TransactionStatusAuth
   verify(token: String!): TransactionStatusEvent
   forgotPassword(email: String!): TransactionStatusEvent
   changePassword(token: String!, newPassword: String!): TransactionStatusEvent
   changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatusEvent
   createBucket(parent: String, title: String!, description: String, privateBucket: Boolean): TransactionStatusBucket
+  followUser(id: String): TransactionStatusUser
+  unFollowUser(id: String): TransactionStatusUser
 }
 
+# Responses
 type TransactionStatusEvent implements TransactionStatus {
   message: String!
   success: Boolean!
   errorCode: String
+  data: String
 }
 
 type TransactionStatusBucket implements TransactionStatus {
@@ -38,7 +59,16 @@ type TransactionStatusBucket implements TransactionStatus {
   data: Bucket
 }
 
-type AuthPayload {
-  token: String!
-  user: User!
+type TransactionStatusUser implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: User!
+}
+
+type TransactionStatusAuth implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: AuthPayload
 }
