@@ -11,10 +11,26 @@ module.exports = {
     currentUser: (_, { user }) => {
       return {
         id: user.id,
+        username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email
       };
+    },
+    getSelf: async (_, { user, followersPage = 0, followingPage = 0 }) => {
+      let data = {
+        success: true,
+        message: "Retriving user information",
+        errorCode: null,
+        data: {
+          id: user.id,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        }
+      };
+      return data;
     }
   },
 
@@ -131,8 +147,24 @@ module.exports = {
 
   User: {
     // User resolvers
-    buckets(parent) {
+    async buckets(parent) {
       return prisma.buckets({ where: { owner: { id: parent.id } } });
+    },
+    async followers(parent, { limit = 20, offset = 0 }) {
+      let followers = await prisma.user({ id: parent.id }).followers();
+      return {
+        count: followers.length,
+        pages: Math.ceil(followers.length / limit),
+        results: followers.slice(offset, offset + limit)
+      };
+    },
+    async following(parent, { limit = 20, offset = 0 }) {
+      let following = await prisma.user({ id: parent.id }).following();
+      return {
+        count: following.length,
+        pages: Math.ceil(following.length / limit),
+        results: following.slice(offset, offset + limit)
+      };
     }
   }
 };
@@ -150,16 +182,26 @@ async function login(identifier, password) {
       secret
     );
     return {
-      token: token,
-      user: {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email
+      message: "User authenticated",
+      success: true,
+      data: {
+        token: token,
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          username: user.username
+        }
       }
     };
   }
-  return {};
+  return {
+    message: "User not authenticated",
+    success: false,
+    data: null,
+    errorCode: "USER-0001"
+  };
 }
 
 async function sendVerification(user) {

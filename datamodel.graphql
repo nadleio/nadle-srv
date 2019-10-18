@@ -4,6 +4,8 @@ type User {
   lastName: String
   username: String! @unique
   email: String! @unique @required
+  following: [User!]! @relation(name: "UserFollowing")
+  followers: [User!]! @relation(name: "UserFollowers")
   buckets: [Bucket!]!
   activatedAt: DateTime
   activationToken: String @unique
