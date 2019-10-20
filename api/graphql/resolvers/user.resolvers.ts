@@ -82,7 +82,8 @@ module.exports = {
       } else {
         return {
           message: "User password change request not sent",
-          success: false
+          success: false,
+          errorCode: "USER-E82ADBA"
         };
       }
     },
