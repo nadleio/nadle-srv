@@ -16,6 +16,18 @@ type User {
   password: String! @required
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  files: [File!]!
+}
+
+type File {
+  id: ID! @id
+  url: String!
+  owner: User!
+  fileName: String!
+  mimetype: String!
+  encoding: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Bucket {

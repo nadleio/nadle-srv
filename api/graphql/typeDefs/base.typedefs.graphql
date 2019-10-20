@@ -3,3 +3,8 @@ interface TransactionStatus {
   success: Boolean!
   errorCode: String
 }
+
+interface Paging {
+  count: Int
+  pages: Int
+}

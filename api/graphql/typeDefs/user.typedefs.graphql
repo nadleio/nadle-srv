@@ -1,3 +1,5 @@
+scalar Upload
+
 # Models
 type User {
   id: ID!
@@ -9,6 +11,16 @@ type User {
   buckets: [Bucket!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
+  files(limit: Int, offset: Int): Files
+}
+
+type File {
+  id: ID!
+  owner: User!
+  url: String!
+  fileName: String!
+  mimetype: String!
+  encoding: String
 }
 
 type AuthPayload {
@@ -16,10 +28,16 @@ type AuthPayload {
   user: User!
 }
 
-type Follows {
+type Follows implements Paging {
   count: Int
   pages: Int
   results: [User!]!
+}
+
+type Files implements Paging {
+  count: Int
+  pages: Int
+  results: [File!]!
 }
 
 # Queries
@@ -43,6 +61,7 @@ type Mutation {
   createBucket(parent: String, title: String!, description: String, privateBucket: Boolean): TransactionStatusBucket
   followUser(id: String): TransactionStatusUser
   unFollowUser(id: String): TransactionStatusUser
+  uploadFile(file: Upload!): TransactionStatusFile
 }
 
 # Responses
@@ -51,6 +70,13 @@ type TransactionStatusEvent implements TransactionStatus {
   success: Boolean!
   errorCode: String
   data: String
+}
+
+type TransactionStatusFile implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: File
 }
 
 type TransactionStatusBucket implements TransactionStatus {
