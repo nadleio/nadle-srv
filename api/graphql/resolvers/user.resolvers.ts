@@ -14,6 +14,7 @@ module.exports = {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
         email: user.email
       };
     },
@@ -27,6 +28,7 @@ module.exports = {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
+          avatar: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
           email: user.email
         }
       };

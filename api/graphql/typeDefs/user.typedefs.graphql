@@ -5,6 +5,7 @@ type User {
   lastName: String
   username: String!
   email: String!
+  avatar: String
   buckets: [Bucket!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
