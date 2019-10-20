@@ -54,7 +54,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: "USER-0025"
+          errorCode: "USER-" + e.message.hexEncode().slice(-7).toUpperCase()
         };
       }
     },
