@@ -1,10 +1,10 @@
 const sendgridToken = process.env.SENDGRID_API_KEY;
+const secret = process.env.SECRET;
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../../../generated/prisma-client");
-
-const secret = process.env.SECRET;
+const { processUpload } = require("../../modules/fileApi");
 
 module.exports = {
   Query: {
@@ -14,11 +14,12 @@ module.exports = {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
-        avatar: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+        avatar:
+          "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
         email: user.email
       };
     },
-    getSelf: async (_, { user, followersPage = 0, followingPage = 0 }) => {
+    getSelf: async (_, { user }) => {
       let data = {
         success: true,
         message: "Retriving user information",
@@ -28,7 +29,8 @@ module.exports = {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          avatar: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
           email: user.email
         }
       };
@@ -54,7 +56,12 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: "USER-" + e.message.hexEncode().slice(-7).toUpperCase()
+          errorCode:
+            "USER-" +
+            e.message
+              .hexEncode()
+              .slice(-7)
+              .toUpperCase()
         };
       }
     },
@@ -117,6 +124,34 @@ module.exports = {
         return { message: "Password not changed", success: false };
       }
     },
+    uploadFile: async (_, { user, file }, ctx, info) => {
+      try {
+        let s3Data = await processUpload(await file, ctx);
+        let fileData = await prisma.createFile({
+          url: s3Data.url,
+          owner: { connect: { id: user.id } },
+          fileName: s3Data.filename,
+          mimetype: s3Data.mimetype,
+          encoding: s3Data.encoding
+        });
+        return {
+          message: "File Uploaded",
+          success: true,
+          data: fileData
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode:
+            "FILE-" +
+            e.message
+              .hexEncode()
+              .slice(-7)
+              .toUpperCase()
+        };
+      }
+    },
 
     // User buckets
     createBucket: async (
@@ -167,6 +202,14 @@ module.exports = {
         count: following.length,
         pages: Math.ceil(following.length / limit),
         results: following.slice(offset, offset + limit)
+      };
+    },
+    async files(parent, { limit = 20, offset = 0 }) {
+      let files = await prisma.user({ id: parent.id }).files();
+      return {
+        count: files.length,
+        pages: Math.ceil(files.length / limit),
+        results: files.slice(offset, offset + limit)
       };
     }
   }

@@ -14,18 +14,19 @@ export const permissions = {
   },
   Mutation: {
     changePasswordAuth: Authorization,
-    createBucket: Authorization
+    createBucket: Authorization,
+    uploadFile: Authorization
   }
 };
 
-String.prototype.hexEncode = function () {
+String.prototype.hexEncode = function() {
   var hex, i;
 
   var result = "";
   for (i = 0; i < this.length; i++) {
     hex = this.charCodeAt(i).toString(16);
-    result += (hex).slice(-4);
+    result += hex.slice(-4);
   }
 
-  return result
-}
+  return result;
+};
