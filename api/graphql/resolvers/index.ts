@@ -19,6 +19,12 @@ export const permissions = {
   }
 };
 
+declare global {
+  interface String {
+    hexEncode(): string;
+  }
+}
+
 String.prototype.hexEncode = function() {
   var hex, i;
 
