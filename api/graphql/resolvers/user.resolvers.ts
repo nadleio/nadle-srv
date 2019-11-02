@@ -1,5 +1,3 @@
-import { networkInterfaces } from "os";
-
 const sendgridToken = process.env.SENDGRID_API_KEY;
 const secret = process.env.SECRET;
 
