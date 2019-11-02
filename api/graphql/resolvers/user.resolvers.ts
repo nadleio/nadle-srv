@@ -1,3 +1,5 @@
+import { networkInterfaces } from "os";
+
 const sendgridToken = process.env.SENDGRID_API_KEY;
 const secret = process.env.SECRET;
 
@@ -219,6 +221,16 @@ async function login(identifier, password) {
   const user =
     (await prisma.user({ email: identifier })) ||
     (await prisma.user({ username: identifier }));
+
+  if (!(user.activatedAt < new Date()) || user.activatedAt === null) {
+    return {
+      message: "User hasn't been verified",
+      success: false,
+      data: null,
+      errorCode: "USER-0003"
+    };
+  }
+
   const isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
     const now = new Date();
