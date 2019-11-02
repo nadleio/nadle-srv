@@ -40,7 +40,20 @@ module.exports = {
 
   Mutation: {
     login: async (_, { identifier, password }) => {
-      return await login(identifier, password);
+      try {
+        return await login(identifier, password);
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode:
+            "USER-" +
+            e.message
+              .hexEncode()
+              .slice(-7)
+              .toUpperCase()
+        };
+      }
     },
     signup: async (_, { email, username, password }) => {
       try {
@@ -219,6 +232,15 @@ async function login(identifier, password) {
   const user =
     (await prisma.user({ email: identifier })) ||
     (await prisma.user({ username: identifier }));
+
+  if (user === null) {
+    return {
+      message: `User with the given identifier ${identifier} was not found`,
+      success: false,
+      data: null,
+      errorCode: "USER-0002"
+    };
+  }
   const isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
     const now = new Date();
