@@ -233,7 +233,7 @@ async function login(identifier, password) {
     (await prisma.user({ email: identifier })) ||
     (await prisma.user({ username: identifier }));
 
-  if (user === null) {
+  if (!user) {
     return {
       message: `User with the given identifier ${identifier} was not found`,
       success: false,
