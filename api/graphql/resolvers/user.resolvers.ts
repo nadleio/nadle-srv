@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../../../generated/prisma-client");
 const { processUpload } = require("../../modules/fileApi");
+const moment = require("moment");
 
 module.exports = {
   Query: {
@@ -220,7 +221,7 @@ async function login(identifier, password) {
     (await prisma.user({ email: identifier })) ||
     (await prisma.user({ username: identifier }));
 
-  if (!(user.activatedAt < new Date()) || user.activatedAt === null) {
+  if (!(moment(user.activatedAt) < moment()) || user.activatedAt === null) {
     return {
       message: "User hasn't been verified",
       success: false,
@@ -231,8 +232,7 @@ async function login(identifier, password) {
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
-    const now = new Date();
-    const oneWeekForward = now.getDate() + 7;
+    const oneWeekForward = moment().add(7, "d");
     const token = await jwt.sign(
       { userId: user.id, validUntil: oneWeekForward },
       secret
@@ -262,8 +262,8 @@ async function login(identifier, password) {
 
 async function sendVerification(user) {
   const sgMail = require("@sendgrid/mail");
-  const now = new Date();
-  const oneDayForward = now.getDay() + 1;
+  const now = moment();
+  const oneDayForward = now.add(1, "d");
   const token = await jwt.sign(
     { userId: user.id, validUntil: oneDayForward },
     secret
@@ -289,8 +289,8 @@ async function sendVerification(user) {
 
 async function SendPasswordChange(user) {
   const sgMail = require("@sendgrid/mail");
-  const now = new Date();
-  const thirtyMinutesForward = now.getMinutes() + 20;
+  const now = moment();
+  const thirtyMinutesForward = now.add(30, "m");
   const token = await jwt.sign(
     { userId: user.id, validUntil: thirtyMinutesForward },
     secret
