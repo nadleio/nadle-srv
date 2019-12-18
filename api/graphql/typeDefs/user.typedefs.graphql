@@ -42,7 +42,6 @@ type Files implements Paging {
 
 # Queries
 type Query {
-  currentUser: TransactionStatusUser!
   getSelf: TransactionStatusUser!
 }
 
@@ -61,6 +60,8 @@ type Mutation {
   createBucket(parent: String, title: String!, description: String, privateBucket: Boolean): TransactionStatusBucket
   followUser(id: String): TransactionStatusUser
   unFollowUser(id: String): TransactionStatusUser
+  changeAvatar(file: Upload!): TransactionStatusUser
+  removeAvatar: TransactionStatusUser
   uploadFile(file: Upload!): TransactionStatusFile
 }
 
