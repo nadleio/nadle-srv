@@ -113,8 +113,6 @@ module.exports = {
     changeAvatar: async (_, { user, file }, ctx, info) => {
       try {
         let s3Data = await processUpload(await file, ctx);
-        console.log(s3Data.url);
-        console.log("################");
         await prisma.updateUser({
           data: { avatar: s3Data.url },
           where: { id: user.id }
