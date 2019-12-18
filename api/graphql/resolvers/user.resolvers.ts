@@ -5,35 +5,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../../../generated/prisma-client");
 const { processUpload } = require("../../modules/fileApi");
+const { structureError } = require("../../modules/util");
 const moment = require("moment");
 
 module.exports = {
   Query: {
-    currentUser: (_, { user }) => {
-      return {
-        id: user.id,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        avatar:
-          "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-        email: user.email
-      };
-    },
     getSelf: async (_, { user }) => {
       let data = {
         success: true,
         message: "Retriving user information",
         errorCode: null,
-        data: {
-          id: user.id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          avatar:
-            "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-          email: user.email
-        }
+        data: parseUser(user)
       };
       return data;
     }
@@ -47,12 +29,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode:
-            "USER-" +
-            e.message
-              .hexEncode()
-              .slice(-7)
-              .toUpperCase()
+          errorCode: structureError("USER", e)
         };
       }
     },
@@ -70,12 +47,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode:
-            "USER-" +
-            e.message
-              .hexEncode()
-              .slice(-7)
-              .toUpperCase()
+          errorCode: structureError("USER", e)
         };
       }
     },
@@ -138,6 +110,45 @@ module.exports = {
         return { message: "Password not changed", success: false };
       }
     },
+    changeAvatar: async (_, { user, file }, ctx, info) => {
+      try {
+        let s3Data = await processUpload(await file, ctx);
+        await prisma.updateUser({
+          data: { avatar: s3Data.url },
+          where: { id: user.id }
+        });
+        return {
+          message: "Avatar image uploaded",
+          success: true,
+          data: parseUser(user)
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: structureError("AVATAR", e)
+        };
+      }
+    },
+    removeAvatar: async (_, { user }) => {
+      try {
+        await prisma.updateUser({
+          data: { avatar: null },
+          where: { id: user.id }
+        });
+        return {
+          message: "Avatar image removed",
+          success: true,
+          data: parseUser(user)
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: structureError("AVATAR", e)
+        };
+      }
+    },
     uploadFile: async (_, { user, file }, ctx, info) => {
       try {
         let s3Data = await processUpload(await file, ctx);
@@ -157,12 +168,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode:
-            "FILE-" +
-            e.message
-              .hexEncode()
-              .slice(-7)
-              .toUpperCase()
+          errorCode: structureError("FILE", e)
         };
       }
     },
@@ -242,7 +248,7 @@ async function login(identifier, password) {
       errorCode: "USER-0002"
     };
   }
-  
+
   if (!(moment(user.activatedAt) < moment()) || user.activatedAt === null) {
     return {
       message: "User hasn't been verified",
@@ -334,4 +340,15 @@ async function SendPasswordChange(user) {
     }
   };
   sgMail.send(msg);
+}
+
+function parseUser(user) {
+  return {
+    id: user.id,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatar: user.avatar,
+    email: user.email
+  };
 }

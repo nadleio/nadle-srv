@@ -9,12 +9,13 @@ export const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.*"));
 
 export const permissions = {
   Query: {
-    currentUser: Authorization,
     getSelf: Authorization
   },
   Mutation: {
     changePasswordAuth: Authorization,
     createBucket: Authorization,
+    removeAvatar: Authorization,
+    changeAvatar: Authorization,
     uploadFile: Authorization
   }
 };
