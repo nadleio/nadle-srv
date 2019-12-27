@@ -8,6 +8,10 @@ type User {
   username: String!
   email: String!
   avatar: String
+  biography: String
+  link: String
+  latitude: Float
+  longitude: Float
   buckets: [Bucket!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
@@ -63,6 +67,7 @@ type Mutation {
   changeAvatar(file: Upload!): TransactionStatusUser
   removeAvatar: TransactionStatusUser
   uploadFile(file: Upload!): TransactionStatusFile
+  updateInfo(firstName: String, lastName: String, biography: String, link: String, latitude: Float, longitude: Float): TransactionStatusUser
 }
 
 # Responses
