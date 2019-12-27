@@ -16,7 +16,8 @@ export const permissions = {
     createBucket: Authorization,
     removeAvatar: Authorization,
     changeAvatar: Authorization,
-    uploadFile: Authorization
+    uploadFile: Authorization,
+    updateInfo: Authorization
   }
 };
 

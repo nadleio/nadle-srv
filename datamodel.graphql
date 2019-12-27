@@ -5,6 +5,10 @@ type User {
   username: String! @unique
   email: String! @unique @required
   avatar: String
+  biography: String
+  link: String
+  latitude: Float
+  longitude: Float
   following: [User!]! @relation(name: "UserFollowing")
   followers: [User!]! @relation(name: "UserFollowers")
   buckets: [Bucket!]!

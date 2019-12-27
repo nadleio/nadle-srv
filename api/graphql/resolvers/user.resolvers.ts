@@ -51,6 +51,49 @@ module.exports = {
         };
       }
     },
+    updateInfo: async (
+      _,
+      { user, firstName, lastName, biography, link, latitude, longitude }
+    ) => {
+      try {
+        if (firstName !== undefined) {
+          user.firstName = firstName;
+        }
+        if (lastName !== undefined) {
+          user.lastName = lastName;
+        }
+        if (biography !== undefined) {
+          user.biography = biography;
+        }
+        if (link !== undefined) {
+          user.link = link;
+        }
+        if (latitude !== undefined) {
+          user.latitude = latitude;
+        }
+        if (longitude !== undefined) {
+          user.longitude = longitude;
+        }
+
+        let updateInput = parseUser(user);
+        delete updateInput["id"];
+        await prisma.updateUser({ data: updateInput, where: { id: user.id } });
+
+        let data = {
+          success: true,
+          message: "Retriving user information",
+          errorCode: null,
+          data: parseUser(user)
+        };
+        return data;
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: structureError("USER", e)
+        };
+      }
+    },
     verify: async (_, { token }) => {
       return await jwt.verify(token, secret, async (err, decodedToken) => {
         if (err || !decodedToken) {
@@ -349,6 +392,10 @@ function parseUser(user) {
     firstName: user.firstName,
     lastName: user.lastName,
     avatar: user.avatar,
-    email: user.email
+    email: user.email,
+    biography: user.biography,
+    link: user.link,
+    latitude: user.latitude,
+    longitude: user.longitude
   };
 }
