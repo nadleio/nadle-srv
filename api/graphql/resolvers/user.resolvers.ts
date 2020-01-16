@@ -251,7 +251,7 @@ module.exports = {
       { body, title, coverPostUrl, user, organizationId }
     ) => {
       try {
-        const post = await prisma.createPost({
+        await prisma.createPost({
           body: body,
           title: title,
           coverPostUrl: coverPostUrl,
@@ -261,7 +261,7 @@ module.exports = {
         return {
           message: "Post successfully created",
           success: true,
-          data: post
+          data: parseUser(user)
         };
       } catch (e) {
         return {
@@ -278,6 +278,9 @@ module.exports = {
     // User resolvers
     async buckets(parent) {
       return prisma.buckets({ where: { owner: { id: parent.id } } });
+    },
+    async posts(parent) {
+      return prisma.posts({ where: { owner: { id: parent.id } } });
     },
     async followers(parent, { limit = 20, offset = 0 }) {
       let followers = await prisma.user({ id: parent.id }).followers();

@@ -89,7 +89,7 @@ type Mutation {
     title: String
     coverPostUrl: String
     organizationId: Int
-  ): TransactionStatusPost
+  ): TransactionStatusUser
 }
 
 # Responses
@@ -132,5 +132,5 @@ type TransactionStatusPost implements TransactionStatus {
   message: String!
   success: Boolean!
   errorCode: String
-  data: Post
+  data: User!
 }

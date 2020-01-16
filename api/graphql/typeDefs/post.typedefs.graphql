@@ -10,5 +10,5 @@ type Post {
 }
 
 type Query {
-  userId(userId: ID!): [Post]
+  post(id: ID!): [Post]
 }
