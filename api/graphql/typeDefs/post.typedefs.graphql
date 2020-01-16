@@ -8,6 +8,7 @@ type Post {
   owner: User!
   organizationId: Int
 }
+
 type Query {
   userId(userId: ID!): [Post]
 }
