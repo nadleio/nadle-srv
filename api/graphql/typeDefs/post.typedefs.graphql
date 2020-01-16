@@ -1,0 +1,13 @@
+# Models
+
+type Post {
+  id: ID!
+  body: String
+  title: String
+  coverPostUrl: String
+  owner: User!
+  organizationId: Int
+}
+type Query {
+  userId(userId: ID!): [Post]
+}

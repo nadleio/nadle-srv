@@ -243,6 +243,34 @@ module.exports = {
           bucket: null
         };
       }
+    },
+    ////User's Post
+
+    createPost: async (
+      _,
+      { body, title, coverPostUrl, user, organizationId }
+    ) => {
+      try {
+        const post = await prisma.createPost({
+          body: body,
+          title: title,
+          coverPostUrl: coverPostUrl,
+          owner: { connect: { id: user.id } },
+          organizationId: organizationId
+        });
+        return {
+          message: "Post successfully created",
+          success: true,
+          data: post
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: "USER-0084",
+          post: null
+        };
+      }
     }
   },
 
