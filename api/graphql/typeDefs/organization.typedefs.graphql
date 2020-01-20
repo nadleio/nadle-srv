@@ -1,0 +1,19 @@
+# Models
+
+type Organization {
+  id: ID!
+  owner: User!
+  name: String!
+  username: String!
+  biography: String
+  avatar: String
+  coverPhoto: String
+  members: [User]!
+  link: String
+  location: String
+  # blogs:
+}
+
+type Query {
+  organization(id: ID!): [Organization]
+}
