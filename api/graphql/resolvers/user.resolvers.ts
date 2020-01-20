@@ -271,6 +271,36 @@ module.exports = {
           post: null
         };
       }
+    },
+    ////User's Organization
+    createOrganization: async (
+      _,
+      { name, username, biography, avatar, coverPhoto, link, location, user }
+    ) => {
+      try {
+        await prisma.createOrganization({
+          owner: { connect: { id: user.id } },
+          name: name,
+          username: username,
+          biography: biography,
+          avatar: avatar,
+          coverPhoto: coverPhoto,
+          link: link,
+          location: location
+        });
+        return {
+          message: "Organization successfully created",
+          success: true,
+          data: parseUser(user)
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: "USER-0084",
+          organization: null
+        };
+      }
     }
   },
 

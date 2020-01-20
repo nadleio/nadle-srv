@@ -91,6 +91,15 @@ type Mutation {
     coverPostUrl: String
     organizationId: Int
   ): TransactionStatusUser
+  createOrganization(
+    name: String
+    username: String
+    biography: String
+    avatar: String
+    coverPhoto: String
+    link: String
+    location: String
+  ): TransactionStatusOrganization
 }
 
 # Responses
@@ -130,6 +139,13 @@ type TransactionStatusAuth implements TransactionStatus {
 }
 
 type TransactionStatusPost implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: User!
+}
+
+type TransactionStatusOrganization implements TransactionStatus {
   message: String!
   success: Boolean!
   errorCode: String
