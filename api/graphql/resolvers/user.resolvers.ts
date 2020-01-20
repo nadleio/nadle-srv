@@ -282,6 +282,9 @@ module.exports = {
     async posts(parent) {
       return prisma.posts({ where: { owner: { id: parent.id } } });
     },
+    // async organization(parent) {
+    //   return prisma.organization({ where: { owner: { id: parent.id } } });
+    // },
     async followers(parent, { limit = 20, offset = 0 }) {
       let followers = await prisma.user({ id: parent.id }).followers();
       return {

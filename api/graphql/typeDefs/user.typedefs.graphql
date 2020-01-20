@@ -14,6 +14,7 @@ type User {
   longitude: Float
   buckets: [Bucket!]!
   posts: [Post!]!
+  # organizations: [Organization!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
   files(limit: Int, offset: Int): Files

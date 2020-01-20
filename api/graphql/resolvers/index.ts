@@ -19,6 +19,7 @@ export const permissions = {
     uploadFile: Authorization,
     updateInfo: Authorization,
     createPost: Authorization
+    // createOrganization: Authorization
   }
 };
 
