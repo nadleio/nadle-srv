@@ -18,8 +18,8 @@ export const permissions = {
     changeAvatar: Authorization,
     uploadFile: Authorization,
     updateInfo: Authorization,
-    createPost: Authorization
-    // createOrganization: Authorization
+    createPost: Authorization,
+    createOrganization: Authorization
   }
 };
 

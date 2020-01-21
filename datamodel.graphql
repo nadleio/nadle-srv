@@ -56,3 +56,18 @@ type Post {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
+
+type Organization {
+  id: ID! @id
+  owner: User!
+  name: String!
+  username: String! @unique @required
+  biography: String
+  avatar: String
+  coverPhoto: String
+  members: [Organization!]! @relation(name: "OrganizationMembers")
+  link: String
+  location: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

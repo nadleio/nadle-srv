@@ -278,7 +278,7 @@ module.exports = {
       { name, username, biography, avatar, coverPhoto, link, location, user }
     ) => {
       try {
-        await prisma.createOrganization({
+        const savedOrganization = await prisma.createOrganization({
           owner: { connect: { id: user.id } },
           name: name,
           username: username,
@@ -291,7 +291,7 @@ module.exports = {
         return {
           message: "Organization successfully created",
           success: true,
-          data: parseUser(user)
+          data: savedOrganization
         };
       } catch (e) {
         return {
@@ -312,9 +312,9 @@ module.exports = {
     async posts(parent) {
       return prisma.posts({ where: { owner: { id: parent.id } } });
     },
-    // async organization(parent) {
-    //   return prisma.organization({ where: { owner: { id: parent.id } } });
-    // },
+    async organizations(parent) {
+      return prisma.organization({ where: { owner: { id: parent.id } } });
+    },
     async followers(parent, { limit = 20, offset = 0 }) {
       let followers = await prisma.user({ id: parent.id }).followers();
       return {

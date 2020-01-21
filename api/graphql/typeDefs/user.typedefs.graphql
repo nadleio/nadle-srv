@@ -14,7 +14,7 @@ type User {
   longitude: Float
   buckets: [Bucket!]!
   posts: [Post!]!
-  # organizations: [Organization!]!
+  organizations: [Organization!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
   files(limit: Int, offset: Int): Files
@@ -149,5 +149,5 @@ type TransactionStatusOrganization implements TransactionStatus {
   message: String!
   success: Boolean!
   errorCode: String
-  data: User!
+  data: Organization
 }
