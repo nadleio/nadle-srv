@@ -13,6 +13,7 @@ type User {
   latitude: Float
   longitude: Float
   buckets: [Bucket!]!
+  posts: [Post!]!
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
   files(limit: Int, offset: Int): Files
@@ -52,22 +53,43 @@ type Query {
 # Mutations
 type Mutation {
   signup(
-    email: String!,
-    username: String!,
+    email: String!
+    username: String!
     password: String!
   ): TransactionStatusEvent
   login(identifier: String!, password: String!): TransactionStatusAuth
   verify(token: String!): TransactionStatusEvent
   forgotPassword(email: String!): TransactionStatusEvent
   changePassword(token: String!, newPassword: String!): TransactionStatusEvent
-  changePasswordAuth(oldPassword: String!, newPassword: String!): TransactionStatusEvent
-  createBucket(parent: String, title: String!, description: String, privateBucket: Boolean): TransactionStatusBucket
+  changePasswordAuth(
+    oldPassword: String!
+    newPassword: String!
+  ): TransactionStatusEvent
+  createBucket(
+    parent: String
+    title: String!
+    description: String
+    privateBucket: Boolean
+  ): TransactionStatusBucket
   followUser(id: String): TransactionStatusUser
   unFollowUser(id: String): TransactionStatusUser
   changeAvatar(file: Upload!): TransactionStatusUser
   removeAvatar: TransactionStatusUser
   uploadFile(file: Upload!): TransactionStatusFile
-  updateInfo(firstName: String, lastName: String, biography: String, link: String, latitude: Float, longitude: Float): TransactionStatusUser
+  updateInfo(
+    firstName: String
+    lastName: String
+    biography: String
+    link: String
+    latitude: Float
+    longitude: Float
+  ): TransactionStatusUser
+  createPost(
+    body: String
+    title: String
+    coverPostUrl: String
+    organizationId: Int
+  ): TransactionStatusUser
 }
 
 # Responses
@@ -104,4 +126,11 @@ type TransactionStatusAuth implements TransactionStatus {
   success: Boolean!
   errorCode: String
   data: AuthPayload
+}
+
+type TransactionStatusPost implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: User!
 }
