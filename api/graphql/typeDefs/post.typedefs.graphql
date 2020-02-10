@@ -11,4 +11,18 @@ type Post {
 
 type Query {
   post(id: ID!): [Post]
+  getPost(query: String, limit: Int, offset: Int): TransactionStatusPosts!
+}
+
+type Posts implements Paging {
+  count: Int
+  pages: Int
+  results: [Post!]
+}
+
+type TransactionStatusPosts implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: Posts
 }

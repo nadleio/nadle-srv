@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../../../generated/prisma-client");
 const { processUpload } = require("../../modules/fileApi");
-const { structureError } = require("../../modules/util");
+const { structureError, addSearchablePost } = require("../../modules/util");
 const moment = require("moment");
 
 module.exports = {
@@ -251,13 +251,14 @@ module.exports = {
       { body, title, coverPostUrl, user, organizationId }
     ) => {
       try {
-        await prisma.createPost({
+        const post = await prisma.createPost({
           body: body,
           title: title,
           coverPostUrl: coverPostUrl,
           owner: { connect: { id: user.id } },
           organizationId: organizationId
         });
+        addSearchablePost(post.id, title, body);
         return {
           message: "Post successfully created",
           success: true,
