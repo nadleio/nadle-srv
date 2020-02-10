@@ -1,5 +1,3 @@
-import { prisma } from "../../../generated/prisma-client";
-
 module.exports = {
   Bucket: {
     parent(parent) {

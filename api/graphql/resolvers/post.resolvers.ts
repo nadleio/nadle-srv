@@ -1,5 +1,4 @@
-import { prisma } from "../../../generated/prisma-client";
-const { structureError, searchPost } = require("../../modules/util");
+const { searchPost } = require("../../modules/util");
 
 module.exports = {
   Query: {
