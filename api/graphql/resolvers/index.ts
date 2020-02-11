@@ -1,6 +1,7 @@
 import * as path from "path";
 import { fileLoader } from "merge-graphql-schemas";
 const { Authorization } = require("../middlewares/authorization");
+const { structureError } = require("../../modules/util");
 
 import dotenv = require("dotenv");
 dotenv.config();

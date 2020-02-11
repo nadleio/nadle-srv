@@ -1,4 +1,4 @@
-const { structureError, searchPost } = require("../../modules/util");
+const { searchPost } = require("../../modules/util");
 
 module.exports = {
   Query: {
