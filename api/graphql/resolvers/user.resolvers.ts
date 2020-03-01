@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../../../generated/prisma-client");
 const { processUpload } = require("../../modules/fileApi");
-const { structureError, addSearchablePost } = require("../../modules/util");
+const { addSearchablePost } = require("../../modules/util");
 const moment = require("moment");
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: window.structureError("USER", e)
         };
       }
     },
@@ -47,7 +47,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: window.structureError("USER", e)
         };
       }
     },
@@ -90,7 +90,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: window.structureError("USER", e)
         };
       }
     },
@@ -169,7 +169,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("AVATAR", e)
+          errorCode: window.structureError("AVATAR", e)
         };
       }
     },
@@ -188,7 +188,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("AVATAR", e)
+          errorCode: window.structureError("AVATAR", e)
         };
       }
     },
@@ -211,7 +211,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("FILE", e)
+          errorCode: window.structureError("FILE", e)
         };
       }
     },
