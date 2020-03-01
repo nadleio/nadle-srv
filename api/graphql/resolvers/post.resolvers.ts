@@ -3,6 +3,8 @@ const { searchPost } = require("../../modules/util");
 module.exports = {
   Query: {
     getPost: async (_, { query, limit = 20, offset = 0 }) => {
+      console.log(global.structureError);
+      console.log("##################");
       try {
         const values = await searchPost(query, limit, offset);
         return {

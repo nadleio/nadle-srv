@@ -1,10 +1,3 @@
-global.structureError = (ctx, error) => {
-  return `${ctx}-${error.message
-    .hexEncode()
-    .slice(-7)
-    .toUpperCase()}`;
-};
-
 // Elastic Search
 import elasticClient from "./elasticsearchClient";
 
