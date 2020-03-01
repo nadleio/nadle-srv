@@ -1,5 +1,5 @@
 const { searchPost } = require("../../modules/util");
-import { resolversConfig } from "./index";
+const { prisma } = require("../../../generated/prisma-client");
 
 module.exports = {
   Query: {
@@ -13,7 +13,7 @@ module.exports = {
           data: {
             count: values.hits.total.value,
             pages: Math.ceil(values.hits.total.value / limit),
-            results: await resolversConfig.prisma.posts({
+            results: await prisma.posts({
               where: { id_in: values.hits.hits.map(result => result._id) }
             })
           }
