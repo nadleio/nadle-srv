@@ -21,7 +21,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("POST-SEARCH", e)
+          errorCode: window.structureError("POST-SEARCH", e)
         };
       }
     }
