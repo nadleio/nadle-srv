@@ -1,11 +1,4 @@
-export {};
-declare global {
-  interface Window {
-    structureError: any;
-  }
-}
-
-(window as Window & typeof globalThis).structureError = (ctx, error) => {
+globalThis.structureError = (ctx, error) => {
   return `${ctx}-${error.message
     .hexEncode()
     .slice(-7)

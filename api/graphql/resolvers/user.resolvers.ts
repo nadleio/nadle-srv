@@ -29,7 +29,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("USER", e)
+          errorCode: globalThis.structureError("USER", e)
         };
       }
     },
@@ -47,7 +47,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("USER", e)
+          errorCode: globalThis.structureError("USER", e)
         };
       }
     },
@@ -90,7 +90,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("USER", e)
+          errorCode: globalThis.structureError("USER", e)
         };
       }
     },
@@ -169,7 +169,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("AVATAR", e)
+          errorCode: globalThis.structureError("AVATAR", e)
         };
       }
     },
@@ -188,7 +188,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("AVATAR", e)
+          errorCode: globalThis.structureError("AVATAR", e)
         };
       }
     },
@@ -211,7 +211,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: window.structureError("FILE", e)
+          errorCode: globalThis.structureError("FILE", e)
         };
       }
     },
