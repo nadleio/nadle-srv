@@ -1,5 +1,5 @@
 import * as path from "path";
-import { fileLoader } from "merge-graphql-schemas";
+import { fileLoader, mergeResolvers } from "merge-graphql-schemas";
 const { Authorization } = require("../middlewares/authorization");
 const { prisma } = require("../../../generated/prisma-client");
 
@@ -13,7 +13,8 @@ global.structureError = (ctx, error) => {
     .toUpperCase()}`;
 };
 
-export const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.*"));
+const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.*"));
+export default mergeResolvers(resolvers);
 
 export const permissions = {
   Query: {

@@ -1,6 +1,6 @@
 import dotenv = require("dotenv");
 import { default as typeDefs } from "./api/graphql/typeDefs";
-import { resolvers, permissions } from "./api/graphql/resolvers";
+import { default as resolvers, permissions } from "./api/graphql/resolvers";
 import { GraphQLServer } from "graphql-yoga";
 
 declare global {
