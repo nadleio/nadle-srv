@@ -1,4 +1,4 @@
-globalThis.structureError = (ctx, error) => {
+global.structureError = (ctx, error) => {
   return `${ctx}-${error.message
     .hexEncode()
     .slice(-7)

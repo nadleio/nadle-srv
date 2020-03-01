@@ -3,6 +3,14 @@ import { default as typeDefs } from "./api/graphql/typeDefs";
 import { resolvers, permissions } from "./api/graphql/resolvers";
 import { GraphQLServer } from "graphql-yoga";
 
+declare global {
+  module NodeJS {
+    interface Global {
+      structureError: any;
+    }
+  }
+}
+
 dotenv.config();
 const portGraphql: string = process.env.PORT || "4000";
 
