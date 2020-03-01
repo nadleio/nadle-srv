@@ -3,7 +3,6 @@ const secret = process.env.SECRET;
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { prisma } = require("../../../generated/prisma-client");
 const { processUpload } = require("../../modules/fileApi");
 const { addSearchablePost } = require("../../modules/util");
 const moment = require("moment");

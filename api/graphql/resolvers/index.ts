@@ -1,6 +1,7 @@
 import * as path from "path";
 import { fileLoader } from "merge-graphql-schemas";
 const { Authorization } = require("../middlewares/authorization");
+const { prisma } = require("../../../generated/prisma-client");
 
 import dotenv = require("dotenv");
 dotenv.config();
