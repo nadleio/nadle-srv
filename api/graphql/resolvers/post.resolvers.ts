@@ -1,5 +1,6 @@
 const { searchPost } = require("../../modules/util");
 const { prisma } = require("../../../generated/prisma-client");
+const { structureError } = require("../../modules/util");
 
 module.exports = {
   Query: {
@@ -22,7 +23,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("POST-SEARCH", e)
+          errorCode: structureError("POST-SEARCH", e)
         };
       }
     }

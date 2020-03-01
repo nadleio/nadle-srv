@@ -28,7 +28,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("USER", e)
+          errorCode: structureError("USER", e)
         };
       }
     },
@@ -46,7 +46,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("USER", e)
+          errorCode: structureError("USER", e)
         };
       }
     },
@@ -89,7 +89,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("USER", e)
+          errorCode: structureError("USER", e)
         };
       }
     },
@@ -168,7 +168,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("AVATAR", e)
+          errorCode: structureError("AVATAR", e)
         };
       }
     },
@@ -187,7 +187,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("AVATAR", e)
+          errorCode: structureError("AVATAR", e)
         };
       }
     },
@@ -210,7 +210,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: global.structureError("FILE", e)
+          errorCode: structureError("FILE", e)
         };
       }
     },

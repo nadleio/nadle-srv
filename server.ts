@@ -4,12 +4,22 @@ import { default as resolvers, permissions } from "./api/graphql/resolvers";
 import { GraphQLServer } from "graphql-yoga";
 
 declare global {
-  module NodeJS {
-    interface Global {
-      structureError: any;
-    }
+  interface String {
+    hexEncode(): string;
   }
 }
+
+String.prototype.hexEncode = function() {
+  var hex, i;
+
+  var result = "";
+  for (i = 0; i < this.length; i++) {
+    hex = this.charCodeAt(i).toString(16);
+    result += hex.slice(-4);
+  }
+
+  return result;
+};
 
 dotenv.config();
 const portGraphql: string = process.env.PORT || "4000";
