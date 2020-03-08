@@ -3,9 +3,21 @@ import { default as typeDefs } from "./api/graphql/typeDefs";
 import { default as resolvers, permissions } from "./api/graphql/resolvers";
 import { GraphQLServer } from "graphql-yoga";
 
+const { prisma } = require("./generated/prisma-client");
+const { structureError } = require("./api/modules/util");
+
+global.prisma = prisma;
+global.structureError = structureError;
+
 declare global {
   interface String {
     hexEncode(): string;
+  }
+  namespace NodeJS {
+    interface Global {
+      prisma: any;
+      structureError(ctx: string, error: string): string;
+    }
   }
 }
 

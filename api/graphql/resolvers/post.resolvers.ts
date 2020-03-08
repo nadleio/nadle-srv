@@ -1,6 +1,4 @@
 const { searchPost } = require("../../modules/util");
-const { prisma } = require("../../../generated/prisma-client");
-const { structureError } = require("../../modules/util");
 
 module.exports = {
   Query: {
@@ -14,7 +12,7 @@ module.exports = {
           data: {
             count: values.hits.total.value,
             pages: Math.ceil(values.hits.total.value / limit),
-            results: await prisma.posts({
+            results: await global.prisma.posts({
               where: { id_in: values.hits.hits.map(result => result._id) }
             })
           }
@@ -23,7 +21,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("POST-SEARCH", e)
+          errorCode: global.structureError("POST-SEARCH", e)
         };
       }
     }

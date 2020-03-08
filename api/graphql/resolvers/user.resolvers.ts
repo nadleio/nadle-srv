@@ -28,14 +28,14 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: global.structureError("USER", e)
         };
       }
     },
     signup: async (_, { email, username, password }) => {
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await prisma.createUser({
+        const user = await global.prisma.createUser({
           email: email,
           username: username,
           password: hashedPassword
@@ -46,7 +46,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: global.structureError("USER", e)
         };
       }
     },
@@ -76,7 +76,10 @@ module.exports = {
 
         let updateInput = parseUser(user);
         delete updateInput["id"];
-        await prisma.updateUser({ data: updateInput, where: { id: user.id } });
+        await global.prisma.updateUser({
+          data: updateInput,
+          where: { id: user.id }
+        });
 
         let data = {
           success: true,
@@ -89,7 +92,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("USER", e)
+          errorCode: global.structureError("USER", e)
         };
       }
     },
@@ -102,7 +105,7 @@ module.exports = {
         if (decodedToken.validUntil > now) {
           return { message: "Token expired", success: false };
         }
-        await prisma.updateUser({
+        await global.prisma.updateUser({
           data: { activatedAt: new Date() },
           where: { id: decodedToken.userId }
         });
@@ -110,7 +113,7 @@ module.exports = {
       });
     },
     forgotPassword: async (_, { email }) => {
-      const user = await prisma.user({ email: email });
+      const user = await global.prisma.user({ email: email });
       if (user !== null) {
         SendPasswordChange(user);
         return { message: "User password change request sent", success: true };
@@ -132,7 +135,7 @@ module.exports = {
           return { message: "Token expired", success: false };
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await prisma.updateUser({
+        await global.prisma.updateUser({
           data: { password: hashedPassword },
           where: { id: decodedToken.userId }
         });
@@ -143,7 +146,7 @@ module.exports = {
       const isMatch = await bcrypt.compare(oldPassword, user.password);
       if (isMatch) {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await prisma.updateUser({
+        await global.prisma.updateUser({
           data: { password: hashedPassword },
           where: { id: user.id }
         });
@@ -155,7 +158,7 @@ module.exports = {
     changeAvatar: async (_, { user, file }, ctx, info) => {
       try {
         let s3Data = await processUpload(await file, ctx);
-        await prisma.updateUser({
+        await global.prisma.updateUser({
           data: { avatar: s3Data.url },
           where: { id: user.id }
         });
@@ -168,13 +171,13 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("AVATAR", e)
+          errorCode: global.structureError("AVATAR", e)
         };
       }
     },
     removeAvatar: async (_, { user }) => {
       try {
-        await prisma.updateUser({
+        await global.prisma.updateUser({
           data: { avatar: null },
           where: { id: user.id }
         });
@@ -187,14 +190,14 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("AVATAR", e)
+          errorCode: global.structureError("AVATAR", e)
         };
       }
     },
     uploadFile: async (_, { user, file }, ctx, info) => {
       try {
         let s3Data = await processUpload(await file, ctx);
-        let fileData = await prisma.createFile({
+        let fileData = await global.prisma.createFile({
           url: s3Data.url,
           owner: { connect: { id: user.id } },
           fileName: s3Data.filename,
@@ -210,7 +213,7 @@ module.exports = {
         return {
           message: e.message,
           success: false,
-          errorCode: structureError("FILE", e)
+          errorCode: global.structureError("FILE", e)
         };
       }
     },
@@ -222,7 +225,7 @@ module.exports = {
     ) => {
       try {
         const parentBucketPresent = parent !== null;
-        const bucket = await prisma.createBucket({
+        const bucket = await global.prisma.createBucket({
           parent: parentBucketPresent ? { connect: { id: parent } } : null,
           title: title,
           description: description,
@@ -250,7 +253,7 @@ module.exports = {
       { body, title, coverPostUrl, user, organizationId }
     ) => {
       try {
-        const post = await prisma.createPost({
+        const post = await global.prisma.createPost({
           body: body,
           title: title,
           coverPostUrl: coverPostUrl,
@@ -277,13 +280,13 @@ module.exports = {
   User: {
     // User resolvers
     async buckets(parent) {
-      return prisma.buckets({ where: { owner: { id: parent.id } } });
+      return global.prisma.buckets({ where: { owner: { id: parent.id } } });
     },
     async posts(parent) {
-      return prisma.posts({ where: { owner: { id: parent.id } } });
+      return global.prisma.posts({ where: { owner: { id: parent.id } } });
     },
     async followers(parent, { limit = 20, offset = 0 }) {
-      let followers = await prisma.user({ id: parent.id }).followers();
+      let followers = await global.prisma.user({ id: parent.id }).followers();
       return {
         count: followers.length,
         pages: Math.ceil(followers.length / limit),
@@ -291,7 +294,7 @@ module.exports = {
       };
     },
     async following(parent, { limit = 20, offset = 0 }) {
-      let following = await prisma.user({ id: parent.id }).following();
+      let following = await global.prisma.user({ id: parent.id }).following();
       return {
         count: following.length,
         pages: Math.ceil(following.length / limit),
@@ -299,7 +302,7 @@ module.exports = {
       };
     },
     async files(parent, { limit = 20, offset = 0 }) {
-      let files = await prisma.user({ id: parent.id }).files();
+      let files = await global.prisma.user({ id: parent.id }).files();
       return {
         count: files.length,
         pages: Math.ceil(files.length / limit),
@@ -311,8 +314,8 @@ module.exports = {
 
 async function login(identifier, password) {
   const user =
-    (await prisma.user({ email: identifier })) ||
-    (await prisma.user({ username: identifier }));
+    (await global.prisma.user({ email: identifier })) ||
+    (await global.prisma.user({ username: identifier }));
 
   if (!user) {
     return {
@@ -370,7 +373,7 @@ async function sendVerification(user) {
     { userId: user.id, validUntil: oneDayForward },
     secret
   );
-  await prisma.updateUser({
+  await global.prisma.updateUser({
     data: { activationToken: token, activationSentAt: now },
     where: { id: user.id }
   });
@@ -397,7 +400,7 @@ async function SendPasswordChange(user) {
     { userId: user.id, validUntil: thirtyMinutesForward },
     secret
   );
-  await prisma.updateUser({
+  await global.prisma.updateUser({
     data: { resetPasswordToken: token, resetPasswordSentAt: now },
     where: { id: user.id }
   });

@@ -5,8 +5,6 @@ services:
     restart: always
     ports:
       - "4466:4466"
-    networks:
-      - api
     healthcheck:
       test: ["CMD-SHELL", "wget --spider localhost:4466 || exit 1"]
       interval: 30s
@@ -37,18 +35,13 @@ services:
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgresql/data
-    networks:
-      - api
   api:
     build: .
     user: root
     restart: always
     container_name: nadle-api
     ports:
-      - "3000:3000"
       - "4000:4000"
-    networks:
-      - api
     depends_on:
       prisma:
         condition: service_healthy
@@ -72,10 +65,14 @@ services:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
       - "5601:5601"
+  s3:
+    image: lphoward/fake-s3
+    ports:
+      - "4569:4569"
+    volumes:
+      - s3:/fakes3_root
+
 
 volumes:
   postgres:
-
-networks:
-  api:
-    driver: bridge
+  s3:

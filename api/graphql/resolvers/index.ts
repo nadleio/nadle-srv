@@ -5,7 +5,7 @@ const { Authorization } = require("../middlewares/authorization");
 import dotenv = require("dotenv");
 dotenv.config();
 
-const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.*"));
+const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.ts"));
 export default mergeResolvers(resolvers);
 
 export const permissions = {
