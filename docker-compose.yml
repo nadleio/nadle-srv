@@ -1,5 +1,15 @@
 version: '2.1'
 services:
+  #api:
+  #  build: .
+  #  user: root
+  #  restart: always
+  #  container_name: nadle-api
+  #  ports:
+  #    - "4000:4000"
+  #  depends_on:
+  #    prisma:
+  #      condition: service_healthy
   prisma:
     image: prismagraphql/prisma:1.34
     restart: always
@@ -13,8 +23,6 @@ services:
     environment:
       PRISMA_CONFIG: |
         port: 4466
-        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=my-secret to activate cluster security
-        # managementApiSecret: my-secret
         databases:
           default:
             connector: postgres
@@ -35,16 +43,6 @@ services:
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgresql/data
-  api:
-    build: .
-    user: root
-    restart: always
-    container_name: nadle-api
-    ports:
-      - "4000:4000"
-    depends_on:
-      prisma:
-        condition: service_healthy
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
     container_name: elasticsearch1

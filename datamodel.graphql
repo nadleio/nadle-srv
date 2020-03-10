@@ -2,7 +2,7 @@ type User {
   id: ID! @id
   firstName: String
   lastName: String
-  username: String! @unique
+  username: String @unique
   email: String! @unique @required
   avatar: String
   biography: String

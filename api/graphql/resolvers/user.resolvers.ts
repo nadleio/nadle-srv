@@ -382,7 +382,7 @@ async function sendVerification(user) {
   const msg = {
     to: user.email,
     from: "support@nadle.io",
-    templateId: "d-cb170038c779464b9c1c21e7297280fe",
+    templateId: "d-c050a1b4afe8442599e4255afdbe1e81",
     dynamic_template_data: {
       token: token,
       first_name: user.firstName,
@@ -409,7 +409,7 @@ async function SendPasswordChange(user) {
   const msg = {
     to: user.email,
     from: "support@nadle.io",
-    templateId: "d-13beb537ddbe411993d903e6bab88b46",
+    templateId: "d-8d07cba582d84729b0a44af9b4907939",
     dynamic_template_data: {
       token: token,
       first_name: user.firstName,
