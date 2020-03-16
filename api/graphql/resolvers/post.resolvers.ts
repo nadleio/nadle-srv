@@ -1,4 +1,14 @@
 const { searchPost } = require("../../modules/util");
+const { addSearchablePost } = require("../../modules/util");
+
+const processHashTags = (body: string): void => {
+  let regexp = /\B\#\w\w+\b/g;
+  let result = body.match(regexp);
+  if (result == null) return;
+  result.forEach(hashtag => {
+    global.hashTagHandler.countUse(hashtag);
+  });
+};
 
 module.exports = {
   Query: {
@@ -22,6 +32,36 @@ module.exports = {
           message: e.message,
           success: false,
           errorCode: global.structureError("POST-SEARCH", e)
+        };
+      }
+    }
+  },
+  Mutation: {
+    createPost: async (
+      _,
+      { body, title, coverPostUrl, user, organizationId }
+    ) => {
+      try {
+        processHashTags(body);
+        const post = await global.prisma.createPost({
+          body: body,
+          title: title,
+          coverPostUrl: coverPostUrl,
+          owner: { connect: { id: user.id } },
+          organizationId: organizationId
+        });
+        addSearchablePost(post.id, title, body);
+        return {
+          message: "Post successfully created",
+          success: true,
+          data: global.parseUser(user)
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: global.structureError("POST-CREATE", e),
+          post: null
         };
       }
     }

@@ -19,6 +19,8 @@ export const permissions = {
     changeAvatar: Authorization,
     uploadFile: Authorization,
     updateInfo: Authorization,
-    createPost: Authorization
+    createPost: Authorization,
+    followTag: Authorization,
+    unfollowTag: Authorization
   }
 };

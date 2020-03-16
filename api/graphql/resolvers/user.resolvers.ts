@@ -1,10 +1,11 @@
+import { prisma } from "../../../generated/prisma-client";
+
 const sendgridToken = process.env.SENDGRID_API_KEY;
 const secret = process.env.SECRET;
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { processUpload } = require("../../modules/fileApi");
-const { addSearchablePost } = require("../../modules/util");
 const moment = require("moment");
 
 module.exports = {
@@ -14,13 +15,53 @@ module.exports = {
         success: true,
         message: "Retriving user information",
         errorCode: null,
-        data: parseUser(user)
+        data: global.parseUser(user)
       };
       return data;
     }
   },
 
   Mutation: {
+    followTag: async (_, { user, hashTag }) => {
+      try {
+        await global.prisma.updateUser({
+          data: { hashtags: { connect: { text: hashTag } } },
+          where: { id: user.id }
+        });
+        return {
+          message: "Retriving following hashtags",
+          success: true,
+          errorCode: null,
+          data: global.prisma.user({ id: user.id }).hashtags()
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: global.structureError("USER", e)
+        };
+      }
+    },
+    unfollowTag: async (_, { user, hashTag }) => {
+      try {
+        await global.prisma.updateUser({
+          data: { hashtags: { disconnect: { text: hashTag } } },
+          where: { id: user.id }
+        });
+        return {
+          message: "Retriving following hashtags",
+          success: true,
+          errorCode: null,
+          data: global.prisma.user({ id: user.id }).hashtags()
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: global.structureError("USER", e)
+        };
+      }
+    },
     login: async (_, { identifier, password }) => {
       try {
         return await login(identifier, password);
@@ -74,7 +115,7 @@ module.exports = {
           user.longitude = longitude;
         }
 
-        let updateInput = parseUser(user);
+        let updateInput = global.parseUser(user);
         delete updateInput["id"];
         await global.prisma.updateUser({
           data: updateInput,
@@ -85,7 +126,7 @@ module.exports = {
           success: true,
           message: "Retriving user information",
           errorCode: null,
-          data: parseUser(user)
+          data: global.parseUser(user)
         };
         return data;
       } catch (e) {
@@ -165,7 +206,7 @@ module.exports = {
         return {
           message: "Avatar image uploaded",
           success: true,
-          data: parseUser(user)
+          data: global.parseUser(user)
         };
       } catch (e) {
         return {
@@ -184,7 +225,7 @@ module.exports = {
         return {
           message: "Avatar image removed",
           success: true,
-          data: parseUser(user)
+          data: global.parseUser(user)
         };
       } catch (e) {
         return {
@@ -217,64 +258,8 @@ module.exports = {
         };
       }
     },
-
-    // User buckets
-    createBucket: async (
-      _,
-      { user, parent, title, description, privateBucket }
-    ) => {
-      try {
-        const parentBucketPresent = parent !== null;
-        const bucket = await global.prisma.createBucket({
-          parent: parentBucketPresent ? { connect: { id: parent } } : null,
-          title: title,
-          description: description,
-          owner: { connect: { id: user.id } },
-          privateBucket: privateBucket
-        });
-        return {
-          message: "Bucket successfully created",
-          success: true,
-          data: bucket
-        };
-      } catch (e) {
-        return {
-          message: e.message,
-          success: false,
-          errorCode: "USER-0084",
-          bucket: null
-        };
-      }
-    },
-    ////User's Post
-
-    createPost: async (
-      _,
-      { body, title, coverPostUrl, user, organizationId }
-    ) => {
-      try {
-        const post = await global.prisma.createPost({
-          body: body,
-          title: title,
-          coverPostUrl: coverPostUrl,
-          owner: { connect: { id: user.id } },
-          organizationId: organizationId
-        });
-        addSearchablePost(post.id, title, body);
-        return {
-          message: "Post successfully created",
-          success: true,
-          data: parseUser(user)
-        };
-      } catch (e) {
-        return {
-          message: e.message,
-          success: false,
-          errorCode: "USER-0084",
-          post: null
-        };
-      }
-    }
+    followUser: async (_, { user, id }) => {},
+    unFollowUser: async (_, { user, id }) => {}
   },
 
   User: {
@@ -417,19 +402,4 @@ async function SendPasswordChange(user) {
     }
   };
   sgMail.send(msg);
-}
-
-function parseUser(user) {
-  return {
-    id: user.id,
-    username: user.username,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    avatar: user.avatar,
-    email: user.email,
-    biography: user.biography,
-    link: user.link,
-    latitude: user.latitude,
-    longitude: user.longitude
-  };
 }

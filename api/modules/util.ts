@@ -10,6 +10,21 @@ import elasticClient from "./elasticsearchClient";
 
 const POST_INDEX = "post_index";
 
+export const parseUser = user => {
+  return {
+    id: user.id,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatar: user.avatar,
+    email: user.email,
+    biography: user.biography,
+    link: user.link,
+    latitude: user.latitude,
+    longitude: user.longitude
+  };
+};
+
 export const addSearchablePost = (id, title, body) => {
   return elasticClient.create({
     id: id,

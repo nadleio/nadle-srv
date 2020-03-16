@@ -21,6 +21,13 @@ type User {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   files: [File!]!
+  hashtags: [HashTag!]
+}
+
+type HashTag {
+  id: ID! @id
+  text: String! @unique
+  count: Int! @default(value: 0)
 }
 
 type File {

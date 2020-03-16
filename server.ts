@@ -4,10 +4,13 @@ import { default as resolvers, permissions } from "./api/graphql/resolvers";
 import { GraphQLServer } from "graphql-yoga";
 
 const { prisma } = require("./generated/prisma-client");
-const { structureError } = require("./api/modules/util");
+const { structureError, parseUser } = require("./api/modules/util");
+import HashTagHandler from "./api/modules/hashTagHandler";
 
 global.prisma = prisma;
 global.structureError = structureError;
+global.parseUser = parseUser;
+global.hashTagHandler = new HashTagHandler();
 
 declare global {
   interface String {
@@ -17,6 +20,8 @@ declare global {
     interface Global {
       prisma: any;
       structureError(ctx: string, error: string): string;
+      parseUser(user: any): any;
+      hashTagHandler: HashTagHandler;
     }
   }
 }

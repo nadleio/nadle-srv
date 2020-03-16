@@ -17,6 +17,7 @@ type User {
   followers(limit: Int, offset: Int): Follows
   following(limit: Int, offset: Int): Follows
   files(limit: Int, offset: Int): Files
+  hashtags: [HashTag]
 }
 
 type File {
@@ -90,6 +91,8 @@ type Mutation {
     coverPostUrl: String
     organizationId: Int
   ): TransactionStatusUser
+  followTag(hashTag: String) : TransactionStatusHashTags
+  unfollowTag(hashTag: String) : TransactionStatusHashTags
 }
 
 # Responses
@@ -133,4 +136,11 @@ type TransactionStatusPost implements TransactionStatus {
   success: Boolean!
   errorCode: String
   data: User!
+}
+
+type TransactionStatusHashTags implements TransactionStatus {
+  message: String!
+  success: Boolean!
+  errorCode: String
+  data: [HashTag]
 }

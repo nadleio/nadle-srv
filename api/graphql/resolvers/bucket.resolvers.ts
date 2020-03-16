@@ -1,4 +1,34 @@
 module.exports = {
+  Mutation: {
+    createBucket: async (
+      _,
+      { user, parent, title, description, privateBucket }
+    ) => {
+      try {
+        const parentBucketPresent = parent !== null;
+        const bucket = await global.prisma.createBucket({
+          parent: parentBucketPresent ? { connect: { id: parent } } : null,
+          title: title,
+          description: description,
+          owner: { connect: { id: user.id } },
+          privateBucket: privateBucket
+        });
+        return {
+          message: "Bucket successfully created",
+          success: true,
+          data: bucket
+        };
+      } catch (e) {
+        return {
+          message: e.message,
+          success: false,
+          errorCode: global.structureError("BUCKET-CREATE", e),
+          bucket: null
+        };
+      }
+    }
+  },
+
   Bucket: {
     parent(parent) {
       return global.prisma.bucket({ id: parent.id }).parent();
